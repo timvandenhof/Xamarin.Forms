@@ -13,27 +13,4 @@
     <ProjectReference Include="..\..\..\Forms\src\Xamarin.Forms.Core\Xamarin.Forms.Core.csproj" />
     <ProjectReference Include="..\..\src\Xamarin.Platform.Handlers\Xamarin.Platform.Handlers.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Platform.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Controls\Ellipse.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Controls\Line.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Controls\Polygon.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Controls\Polyline.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Controls\Rectangle.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Controls\Shape.cs">
-      <SubType></SubType>
-    </Compile>
-  </ItemGroup>
 </Project>
