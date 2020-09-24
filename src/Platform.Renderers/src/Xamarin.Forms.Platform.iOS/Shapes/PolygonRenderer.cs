@@ -18,6 +18,7 @@ namespace Xamarin.Forms.Platform.MacOS
 
         }
 
+        [PortHandler]
         protected override void OnElementChanged(ElementChangedEventArgs<Polygon> args)
         {
             if (Control == null)
@@ -61,11 +62,13 @@ namespace Xamarin.Forms.Platform.MacOS
             }
 		}
 
-		void UpdatePoints()
+        [PortHandler]
+        void UpdatePoints()
         {
             Control.UpdatePoints(Element.Points.ToNative());
         }
 
+        [PortHandler]
         public void UpdateFillRule()
         {
             Control.UpdateFillMode(Element.FillRule == FillRule.Nonzero);
@@ -77,6 +80,7 @@ namespace Xamarin.Forms.Platform.MacOS
         }
     }
 
+    [PortHandler]
     public class PolygonView : ShapeView
     {
         public void UpdatePoints(CGPoint[] points)
