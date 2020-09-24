@@ -1,21 +1,16 @@
-﻿using System;
-using System.ComponentModel;
-using CoreGraphics;
+﻿using System.ComponentModel;
+using Android.Content;
 using Xamarin.Forms.Shapes;
 using Xamarin.Platform;
+using APath = Android.Graphics.Path;
 
-#if __MOBILE__
-namespace Xamarin.Forms.Platform.iOS
-#else
-namespace Xamarin.Forms.Platform.MacOS
-#endif
+namespace Xamarin.Forms.Platform.Android
 {
-    public class LineRenderer : ShapeRenderer<Line, LineView>
+	public class LineRenderer : ShapeRenderer<Line, LineView>
     {
-        [Internals.Preserve(Conditional = true)]
-        public LineRenderer()
+        public LineRenderer(Context context) : base(context)
         {
-
+          
         }
 
         [PortHandler]
@@ -23,7 +18,7 @@ namespace Xamarin.Forms.Platform.MacOS
         {
             if (Control == null)
             {
-                SetNativeControl(new LineView());
+                SetNativeControl(new LineView(Context));
             }
 
             base.OnElementChanged(args);
@@ -50,66 +45,71 @@ namespace Xamarin.Forms.Platform.MacOS
             else if (args.PropertyName == Line.Y2Property.PropertyName)
                 UpdateY2();
         }
+
         [PortHandler]
         void UpdateX1()
         {
-            Control.UpdateX1(Element.X1);
+            Control.UpdateX1((float)Element.X1);
         }
 
         [PortHandler]
         void UpdateY1()
         {
-            Control.UpdateY1(Element.Y1);
+            Control.UpdateY1((float)Element.Y1);
         }
 
         [PortHandler]
         void UpdateX2()
         {
-            Control.UpdateX2(Element.X2);
+            Control.UpdateX2((float)Element.X2);
         }
 
         [PortHandler]
         void UpdateY2()
         {
-            Control.UpdateY2(Element.Y2);
+            Control.UpdateY2((float)Element.Y2);
         }
     }
 
     [PortHandler]
     public class LineView : ShapeView
     {
-        nfloat _x1, _y1, _x2, _y2;
+        float _x1, _y1, _x2, _y2;
 
-        public void UpdateX1(double x1)
+        public LineView(Context context) : base(context)
         {
-            _x1 = new nfloat(x1);
-            UpdateShape();
-        }
-
-        public void UpdateY1(double y1)
-        {
-            _y1 = new nfloat(y1);
-            UpdateShape();
-        }
-
-        public void UpdateX2(double x2)
-        {
-            _x2 = new nfloat(x2);
-            UpdateShape();
-        }
-
-        public void UpdateY2(double y2)
-        {
-            _y2 = new nfloat(y2);
-            UpdateShape();
         }
 
         void UpdateShape()
         {
-			var path = new CGPath();
-            path.MoveToPoint(_x1, _y1);
-            path.AddLineToPoint(_x2, _y2);
-            ShapeLayer.UpdateShape(path);
+			var path = new APath();
+            path.MoveTo(_x1, _y1);
+            path.LineTo(_x2, _y2);
+            UpdateShape(path);
+        }
+
+        public void UpdateX1(float x1)
+        {
+            _x1 = _density * x1;
+            UpdateShape();
+        }
+
+        public void UpdateY1(float y1)
+        {
+            _y1 = _density * y1;
+            UpdateShape();
+        }
+
+        public void UpdateX2(float x2)
+        {
+            _x2 = _density * x2;
+            UpdateShape();
+        }
+
+        public void UpdateY2(float y2)
+        {
+            _y2 = _density * y2;
+            UpdateShape();
         }
     }
 }
