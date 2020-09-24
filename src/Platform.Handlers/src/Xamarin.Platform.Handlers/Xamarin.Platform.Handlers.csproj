@@ -9,5 +9,11 @@
     <PackageId>Xamarin.Platform</PackageId>
     <Product>Xamarin</Product>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Handlers\Ellipse\" />
+    <Folder Include="Handlers\Line\" />
+    <Folder Include="Handlers\Polygon\" />
+    <Folder Include="Handlers\Polyline\" />
+  </ItemGroup>
   <Import Project="..\..\..\..\.nuspec\Xamarin.Forms.MultiTargeting.targets" />
 </Project>

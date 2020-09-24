@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using CoreGraphics;
 using Xamarin.Forms.Shapes;
+using Xamarin.Platform;
 
 #if __MOBILE__
 namespace Xamarin.Forms.Platform.iOS
@@ -44,7 +45,7 @@ namespace Xamarin.Forms.Platform.MacOS
 
         void UpdatePoints()
         {
-            Control.UpdatePoints(Element.Points.ToCGPoints());
+            Control.UpdatePoints(Element.Points.ToNative());
         }
 
         public void UpdateFillRule()
