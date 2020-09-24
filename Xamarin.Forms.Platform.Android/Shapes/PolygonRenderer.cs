@@ -16,7 +16,7 @@ namespace Xamarin.Forms.Platform.Android
         }
 
         [PortHandler]
-        protected override void OnElementChanged(ElementChangedEventArgs<Polygon> args)
+        protected override void OnElementChanged(ElementChangedEventArgs<Polyline> args)
         {
             if (Control == null)
             {
@@ -45,20 +45,6 @@ namespace Xamarin.Forms.Platform.Android
                 UpdateFillRule();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (disposing)
-            {
-                if (Element != null)
-                {
-                    var points = Element.Points;
-                    points.CollectionChanged -= OnCollectionChanged;
-                }
-            }
-        }
-
         [PortHandler]
         void UpdatePoints()
         {
@@ -78,7 +64,7 @@ namespace Xamarin.Forms.Platform.Android
     }
 
     [PortHandler]
-    public class PolygonView : ShapeView
+    public class PolylineView : ShapeView
     {
         PointCollection _points;
         bool _fillMode;

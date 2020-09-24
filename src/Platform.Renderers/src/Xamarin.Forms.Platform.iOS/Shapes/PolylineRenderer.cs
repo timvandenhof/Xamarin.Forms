@@ -17,6 +17,7 @@ namespace Xamarin.Forms.Platform.MacOS
 
         }
 
+        [PortHandler]
         protected override void OnElementChanged(ElementChangedEventArgs<Polyline> args)
         {
             if (Control == null)
@@ -43,17 +44,20 @@ namespace Xamarin.Forms.Platform.MacOS
                 UpdateFillRule();
         }
 
+        [PortHandler]
         void UpdatePoints()
         {
             Control.UpdatePoints(Element.Points.ToNative());
         }
 
+        [PortHandler]
         public void UpdateFillRule()
         {
             Control.UpdateFillMode(Element.FillRule == FillRule.Nonzero);
         }
     }
 
+    [PortHandler]
     public class PolylineView : ShapeView
     {
         public void UpdatePoints(CGPoint[] points)
