@@ -1,5 +1,6 @@
 ﻿using CoreGraphics;
 using Xamarin.Forms.Shapes;
+using Xamarin.Platform;
 
 #if __MOBILE__
 namespace Xamarin.Forms.Platform.iOS
@@ -15,6 +16,7 @@ namespace Xamarin.Forms.Platform.MacOS
 
         }
 
+        [PortHandler]
         protected override void OnElementChanged(ElementChangedEventArgs<Ellipse> args)
         {
             if (Control == null)
@@ -26,6 +28,7 @@ namespace Xamarin.Forms.Platform.MacOS
         }
     }
 
+    [PortHandler]
     public class EllipseView : ShapeView
     {
         public EllipseView()
