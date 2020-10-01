@@ -5,7 +5,7 @@ namespace Xamarin.Platform
 {
     public class NativeEllipse : NativeShape
     {
-        public NativeEllipse(Context context) : base(context)
+        public NativeEllipse(Context? context) : base(context)
         {
             UpdateShape();
         }
@@ -13,7 +13,7 @@ namespace Xamarin.Platform
         void UpdateShape()
         {
             var path = new APath();
-            path.AddCircle(0, 0, 1, APath.Direction.Cw);
+            path.AddCircle(0, 0, 1, APath.Direction.Cw!);
             UpdateShape(path);
         }
     }

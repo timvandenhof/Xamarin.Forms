@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Android.Content;
 using Xamarin.Forms.Shapes;
+using Xamarin.Platform;
 using static Android.Graphics.Path;
 using APath = Android.Graphics.Path;
 
@@ -57,11 +58,13 @@ namespace Xamarin.Forms.Platform.Android
 			}
 		}
 
+		[PortHandler]
 		void UpdatePoints()
 		{
 			Control.UpdatePoints(Element.Points);
 		}
 
+		[PortHandler]
 		void UpdateFillRule()
 		{
 			Control.UpdateFillMode(Element.FillRule == FillRule.Nonzero);
@@ -73,6 +76,7 @@ namespace Xamarin.Forms.Platform.Android
 		}
 	}
 
+	[PortHandler]
 	public class PolygonView : ShapeView
 	{
 		PointCollection _points;

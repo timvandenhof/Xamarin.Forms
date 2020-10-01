@@ -16,7 +16,7 @@ namespace Xamarin.Platform
         readonly ShapeDrawable _drawable;
         protected float _density;
 
-        APath _path;
+        APath? _path;
         readonly RectF _pathFillBounds;
         readonly RectF _pathStrokeBounds;
 
@@ -24,18 +24,18 @@ namespace Xamarin.Platform
         AColor _fill;
 
         float _strokeWidth;
-        float[] _strokeDash;
+        float[]? _strokeDash;
         float _strokeDashOffset;
 
         Stretch _aspect;
 
-        AMatrix _transform;
+        AMatrix? _transform;
 
-        public NativeShape(Context context) : base(context)
+        public NativeShape(Context? context) : base(context)
         {
             _drawable = new ShapeDrawable(null);
 
-            _density = Resources.DisplayMetrics.Density;
+            _density = Resources?.DisplayMetrics != null ? Resources.DisplayMetrics.Density : 1.0f;
 
             _pathFillBounds = new RectF();
             _pathStrokeBounds = new RectF();
@@ -43,7 +43,7 @@ namespace Xamarin.Platform
             _aspect = Stretch.None;
         }
 
-        protected override void OnDraw(Canvas canvas)
+        protected override void OnDraw(Canvas? canvas)
         {
             base.OnDraw(canvas);
 
@@ -56,23 +56,26 @@ namespace Xamarin.Platform
             transformMatrix.MapRect(_pathFillBounds);
             transformMatrix.MapRect(_pathStrokeBounds);
 
-            if (_fill != null)
+            if (_drawable.Paint != null)
             {
-                _drawable.Paint.SetStyle(Paint.Style.Fill);
-                _drawable.Paint.Color = _fill;
-               
+                if (_fill != null)
+                {
+                    _drawable.Paint.SetStyle(Paint.Style.Fill);
+                    _drawable.Paint.Color = _fill;
 
-                _drawable.Draw(canvas);
-                _drawable.Paint.SetShader(null);
-            }
 
-            if (_stroke != null)
-            {
-                _drawable.Paint.SetStyle(Paint.Style.Stroke);
-                _drawable.Paint.Color = _stroke;
-                
-                _drawable.Draw(canvas);
-                _drawable.Paint.SetShader(null);
+                    _drawable.Draw(canvas);
+                    _drawable.Paint.SetShader(null);
+                }
+
+                if (_stroke != null)
+                {
+                    _drawable.Paint.SetStyle(Paint.Style.Stroke);
+                    _drawable.Paint.Color = _stroke;
+
+                    _drawable.Draw(canvas);
+                    _drawable.Paint.SetShader(null);
+                }
             }
 
             AMatrix inverseTransformMatrix = new AMatrix();
@@ -91,7 +94,7 @@ namespace Xamarin.Platform
         public void UpdateShapeTransform(AMatrix matrix)
         {
             _transform = matrix;
-            _path.Transform(_transform);
+            _path?.Transform(_transform);
             Invalidate();
         }
 
@@ -128,7 +131,10 @@ namespace Xamarin.Platform
         public void UpdateStrokeThickness(float strokeWidth)
         {
             _strokeWidth = _density * strokeWidth;
-            _drawable.Paint.StrokeWidth = _strokeWidth;
+
+            if (_drawable.Paint != null)
+                _drawable.Paint.StrokeWidth = _strokeWidth;
+
             UpdateStrokeDash();
         }
 
@@ -153,29 +159,35 @@ namespace Xamarin.Platform
                 for (int i = 0; i < _strokeDash.Length; i++)
                     strokeDash[i] = _strokeDash[i] * _strokeWidth;
 
-                _drawable.Paint.SetPathEffect(new DashPathEffect(strokeDash, _strokeDashOffset * _strokeWidth));
+                _drawable.Paint?.SetPathEffect(new DashPathEffect(strokeDash, _strokeDashOffset * _strokeWidth));
             }
             else
-                _drawable.Paint.SetPathEffect(null);
+                _drawable.Paint?.SetPathEffect(null);
 
             UpdatePathStrokeBounds();
         }
 
-        public void UpdateStrokeLineCap(Paint.Cap strokeCap)
+        public void UpdateStrokeLineCap(Paint.Cap? strokeCap)
         {
-            _drawable.Paint.StrokeCap = strokeCap;
+            if (_drawable.Paint != null)
+                _drawable.Paint.StrokeCap = strokeCap;
+
             UpdatePathStrokeBounds();
         }
 
-        public void UpdateStrokeLineJoin(Paint.Join strokeJoin)
+        public void UpdateStrokeLineJoin(Paint.Join? strokeJoin)
         {
-            _drawable.Paint.StrokeJoin = strokeJoin;
+            if (_drawable.Paint != null)
+                _drawable.Paint.StrokeJoin = strokeJoin;
+
             Invalidate();
         }
 
         public void UpdateStrokeMiterLimit(float strokeMiterLimit)
         {
-            _drawable.Paint.StrokeMiter = strokeMiterLimit * 2;
+            if (_drawable.Paint != null)
+                _drawable.Paint.StrokeMiter = strokeMiterLimit * 2;
+
             UpdatePathStrokeBounds();
         }
 
@@ -196,11 +208,14 @@ namespace Xamarin.Platform
             {
                 using (APath fillPath = new APath())
                 {
-                    _drawable.Paint.StrokeWidth = 0.01f;
-                    _drawable.Paint.SetStyle(Paint.Style.Stroke);
-                    _drawable.Paint.GetFillPath(_path, fillPath);
-                    fillPath.ComputeBounds(_pathFillBounds, false);
-                    _drawable.Paint.StrokeWidth = _strokeWidth;
+                    if (_drawable.Paint != null)
+                    {
+                        _drawable.Paint.StrokeWidth = 0.01f;
+                        _drawable.Paint.SetStyle(Paint.Style.Stroke);
+                        _drawable.Paint.GetFillPath(_path, fillPath);
+                        fillPath.ComputeBounds(_pathFillBounds, false);
+                        _drawable.Paint.StrokeWidth = _strokeWidth;
+                    }
                 }
             }
             else
@@ -216,7 +231,7 @@ namespace Xamarin.Platform
             AMatrix matrix = new AMatrix();
 
             RectF drawableBounds = new RectF(_drawable.Bounds);
-            float halfStrokeWidth = _drawable.Paint.StrokeWidth / 2;
+            float halfStrokeWidth = _drawable.Paint != null ? _drawable.Paint.StrokeWidth / 2 : 0;
 
             drawableBounds.Left += halfStrokeWidth;
             drawableBounds.Top += halfStrokeWidth;
@@ -253,8 +268,8 @@ namespace Xamarin.Platform
             {
                 using (APath strokePath = new APath())
                 {
-                    _drawable.Paint.SetStyle(Paint.Style.Stroke);
-                    _drawable.Paint.GetFillPath(_path, strokePath);
+                    _drawable.Paint?.SetStyle(Paint.Style.Stroke);
+                    _drawable.Paint?.GetFillPath(_path, strokePath);
                     strokePath.ComputeBounds(_pathStrokeBounds, false);
                 }
             }

@@ -7,10 +7,10 @@ namespace Xamarin.Platform
 {
     public class NativePolygon : NativeShape
     {
-        PointCollection _points;
+        PointCollection? _points;
         bool _fillMode;
 
-        public NativePolygon(Context context) : base(context)
+        public NativePolygon(Context? context) : base(context)
         {
 
         }
@@ -20,7 +20,7 @@ namespace Xamarin.Platform
             if (_points != null && _points.Count > 1)
             {
                 APath path = new APath();
-                path.SetFillType(_fillMode ? FillType.Winding : FillType.EvenOdd);
+                path.SetFillType(_fillMode ? FillType.Winding! : FillType.EvenOdd!);
 
                 path.MoveTo(_density * (float)_points[0].X, _density * (float)_points[0].Y);
 

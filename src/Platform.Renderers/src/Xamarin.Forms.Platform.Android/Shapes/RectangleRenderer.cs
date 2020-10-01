@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Android.Content;
 using Android.Graphics;
+using Xamarin.Platform;
 using APath = Android.Graphics.Path;
 using FormsRectangle = Xamarin.Forms.Shapes.Rectangle;
 
@@ -41,12 +42,14 @@ namespace Xamarin.Forms.Platform.Android
 			UpdateRadiusY();
 		}
 
+		[PortHandler]
 		void UpdateRadiusX()
 		{
 			if (Element.Width > 0)
 				Control.UpdateRadiusX(Element.RadiusX / Element.Width);
 		}
 
+		[PortHandler]
 		void UpdateRadiusY()
 		{
 			if (Element.Height > 0)
@@ -54,6 +57,7 @@ namespace Xamarin.Forms.Platform.Android
 		}
 	}
 
+	[PortHandler]
 	public class RectView : ShapeView
 	{
 		public RectView(Context context) : base(context)

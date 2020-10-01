@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Android.Content;
 using Xamarin.Forms.Shapes;
+using Xamarin.Platform;
 using APath = Android.Graphics.Path;
 
 namespace Xamarin.Forms.Platform.Android
@@ -44,27 +45,32 @@ namespace Xamarin.Forms.Platform.Android
 				UpdateY2();
 		}
 
+		[PortHandler]
 		void UpdateX1()
 		{
 			Control.UpdateX1((float)Element.X1);
 		}
 
+		[PortHandler]
 		void UpdateY1()
 		{
 			Control.UpdateY1((float)Element.Y1);
 		}
 
+		[PortHandler]
 		void UpdateX2()
 		{
 			Control.UpdateX2((float)Element.X2);
 		}
 
+		[PortHandler]
 		void UpdateY2()
 		{
 			Control.UpdateY2((float)Element.Y2);
 		}
 	}
 
+	[PortHandler]
 	public class LineView : ShapeView
 	{
 		float _x1, _y1, _x2, _y2;

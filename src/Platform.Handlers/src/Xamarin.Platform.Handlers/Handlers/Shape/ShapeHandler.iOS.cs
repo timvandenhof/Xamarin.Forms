@@ -14,7 +14,7 @@ namespace Xamarin.Platform.Handlers
             double width = view.Frame.Width;
 
             handler?.SetFrame(new Rect(x, y, width, height));
-            var nativeShape = handler.NativeView as NativeShape;
+            var nativeShape = handler?.NativeView as NativeShape;
             nativeShape?.ShapeLayer.UpdateSize(new CGSize(width, height));
         }
 

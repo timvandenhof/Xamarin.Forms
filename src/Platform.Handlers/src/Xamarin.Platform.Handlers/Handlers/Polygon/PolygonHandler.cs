@@ -1,12 +1,6 @@
-﻿#if NETSTANDARD
-using NativeView = System.Object;
-#else
-using NativeView = Xamarin.Platform.NativePolygon;
-#endif
-
-namespace Xamarin.Platform.Handlers
+﻿namespace Xamarin.Platform.Handlers
 {
-    public partial class PolygonHandler : AbstractViewHandler<IPolygon, NativeView>
+    public partial class PolygonHandler
 	{
 		public static PropertyMapper<IPolygon, PolygonHandler> PolygonMapper = new PropertyMapper<IPolygon, PolygonHandler>(ShapeHandler.ShapeMapper)
 		{
@@ -16,19 +10,13 @@ namespace Xamarin.Platform.Handlers
 
 		public static void MapPoints(PolygonHandler handler, IPolygon polygon)
 		{
-			handler.TypedNativeView.UpdatePoints(polygon);
+			handler.TypedNativeView?.UpdatePoints(polygon);
 		}
 
 		public static void MapFillRule(PolygonHandler handler, IPolygon polygon)
 		{
-			handler.TypedNativeView.UpdateFillRule(polygon);
+			handler.TypedNativeView?.UpdateFillRule(polygon);
 		}
-
-#if MONOANDROID
-		protected override NativeView CreateView() => new NativeView(Context);
-#else
-		protected override NativeView CreateView() => new NativeView();
-#endif
 
 		public PolygonHandler() : base(PolygonMapper)
 		{

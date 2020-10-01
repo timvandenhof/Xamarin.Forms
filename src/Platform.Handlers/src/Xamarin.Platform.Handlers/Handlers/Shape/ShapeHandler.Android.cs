@@ -13,7 +13,7 @@ namespace Xamarin.Platform.Handlers
             double width = view.Frame.Width;
 
             handler?.SetFrame(new Forms.Rect(x, y, width, height));
-            var nativeShape = handler.NativeView as NativeShape;
+            var nativeShape = handler?.NativeView as NativeShape;
             nativeShape?.UpdateSize(width, height);
         }
 
@@ -50,7 +50,7 @@ namespace Xamarin.Platform.Handlers
         public static void MapPropertyStrokeLineCap(IViewHandler handler, IShape view)
         {
             PenLineCap lineCap = view.StrokeLineCap;
-            Paint.Cap aLineCap = Paint.Cap.Butt;
+            Paint.Cap? aLineCap = Paint.Cap.Butt;
 
             switch (lineCap)
             {
@@ -72,7 +72,7 @@ namespace Xamarin.Platform.Handlers
         public static void MapPropertyStrokeLineJoin(IViewHandler handler, IShape view)
         {
             PenLineJoin lineJoin = view.StrokeLineJoin;
-            Paint.Join aLineJoin = Paint.Join.Miter;
+            Paint.Join? aLineJoin = Paint.Join.Miter;
 
             switch (lineJoin)
             {

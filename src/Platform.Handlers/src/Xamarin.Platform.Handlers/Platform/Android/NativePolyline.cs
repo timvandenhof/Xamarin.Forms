@@ -7,10 +7,10 @@ namespace Xamarin.Platform
 {
     public class NativePolyline : NativeShape
     {
-        PointCollection _points;
+        PointCollection? _points;
         bool _fillMode;
 
-        public NativePolyline(Context context) : base(context)
+        public NativePolyline(Context? context) : base(context)
         {
         }
 
@@ -19,7 +19,7 @@ namespace Xamarin.Platform
             if (_points != null && _points.Count > 1)
             {
                 var path = new APath();
-                path.SetFillType(_fillMode ? FillType.Winding : FillType.EvenOdd);
+                path.SetFillType(_fillMode ? FillType.Winding! : FillType.EvenOdd!);
 
                 path.MoveTo(_density * (float)_points[0].X, _density * (float)_points[0].Y);
 

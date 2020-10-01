@@ -6,7 +6,7 @@ namespace Xamarin.Platform
 {
     public class NativeRectangle : NativeShape
     {
-        public NativeRectangle(Context context) : base(context)
+        public NativeRectangle(Context? context) : base(context)
         {
             UpdateShape();
         }
@@ -18,7 +18,7 @@ namespace Xamarin.Platform
         void UpdateShape()
         {
             var path = new APath();
-            path.AddRoundRect(new RectF(0, 0, 1, 1), RadiusX, RadiusY, APath.Direction.Cw);
+            path.AddRoundRect(new RectF(0, 0, 1, 1), RadiusX, RadiusY, APath.Direction.Cw!);
             UpdateShape(path);
         }
 

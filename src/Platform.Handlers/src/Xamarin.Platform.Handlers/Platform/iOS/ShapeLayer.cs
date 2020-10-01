@@ -8,21 +8,21 @@ namespace Xamarin.Platform
 {
     public class ShapeLayer : CALayer
     {
-        CGPath _path;
+        CGPath? _path;
         CGRect _pathFillBounds;
         CGRect _pathStrokeBounds;
 
-        CGPath _renderPath;
+        CGPath? _renderPath;
         CGRect _renderPathFill;
         CGRect _renderPathStroke;
 
         bool _fillMode;
 
-        CGColor _stroke;
-        CGColor _fill;
+        CGColor? _stroke;
+        CGColor? _fill;
 
         nfloat _strokeWidth;
-        nfloat[] _strokeDash;
+        nfloat[]? _strokeDash;
         nfloat _dashOffset;
 
         Stretch _stretch;
@@ -172,7 +172,7 @@ namespace Xamarin.Platform
                         break;
 
                     case Stretch.Fill:
-                        stretchTransform.Scale(widthScale, heightScale);
+						stretchTransform.Scale(widthScale, heightScale);
 
                         stretchTransform.Translate(
                             viewBounds.Left - widthScale * _pathFillBounds.Left,

@@ -8,7 +8,7 @@ namespace Xamarin.Platform
     {
         float _x1, _y1, _x2, _y2;
 
-        public NativeLine(Context context) : base(context)
+        public NativeLine(Context? context) : base(context)
         {
         }
 

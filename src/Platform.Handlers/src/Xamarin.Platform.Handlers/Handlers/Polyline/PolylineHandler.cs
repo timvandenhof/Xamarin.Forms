@@ -1,12 +1,6 @@
-﻿#if NETSTANDARD
-using NativeView = System.Object;
-#else
-using NativeView = Xamarin.Platform.NativePolyline;
-# endif
-
-namespace Xamarin.Platform.Handlers
+﻿namespace Xamarin.Platform.Handlers
 {
-    public partial class PolylineHandler : AbstractViewHandler<IPolyline, NativeView>
+    public partial class PolylineHandler 
 	{
 		public static PropertyMapper<IPolyline, PolylineHandler> PolylineMapper = new PropertyMapper<IPolyline, PolylineHandler>(ShapeHandler.ShapeMapper)
 		{
@@ -16,19 +10,13 @@ namespace Xamarin.Platform.Handlers
 
 		public static void MapPoints(PolylineHandler handler, IPolyline polyline)
 		{
-			handler.TypedNativeView.UpdatePoints(polyline);
+			handler.TypedNativeView?.UpdatePoints(polyline);
 		}
 
 		public static void MapFillRule(PolylineHandler handler, IPolyline polyline)
 		{
-			handler.TypedNativeView.UpdateFillRule(polyline);
+			handler.TypedNativeView?.UpdateFillRule(polyline);
 		}
-
-#if MONOANDROID
-		protected override NativeView CreateView() => new NativeView(Context);
-#else
-		protected override NativeView CreateView() => new NativeView();
-#endif
 
 		public PolylineHandler() : base(PolylineMapper)
 		{
