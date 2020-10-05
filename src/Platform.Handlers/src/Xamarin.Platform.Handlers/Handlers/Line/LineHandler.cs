@@ -12,21 +12,25 @@
 
 		public static void MapX1(LineHandler handler, ILine line)
 		{
+			ViewHandler.CheckParameters(handler, line);
 			handler.TypedNativeView?.UpdateX1(line);
 		}
 
 		public static void MapY1(LineHandler handler, ILine line)
 		{
+			ViewHandler.CheckParameters(handler, line);
 			handler.TypedNativeView?.UpdateY1(line);
 		}
 
 		public static void MapX2(LineHandler handler, ILine line)
 		{
+			ViewHandler.CheckParameters(handler, line);
 			handler.TypedNativeView?.UpdateX2(line);
 		}
 
 		public static void MapY2(LineHandler handler, ILine line)
 		{
+			ViewHandler.CheckParameters(handler, line);
 			handler.TypedNativeView?.UpdateY2(line);
 		}
 

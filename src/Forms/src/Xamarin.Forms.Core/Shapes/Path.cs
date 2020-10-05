@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel;
+
 namespace Xamarin.Forms.Shapes
 {
+	// TODO: Code commented because Geometry and Transform has been moved to Xamarin.Platform where BindableProperties are not used.
 	public class Path : Shape
 	{
 		public static readonly BindableProperty DataProperty =
-			 BindableProperty.Create(nameof(Data), typeof(Geometry), typeof(Path), null,
-				 propertyChanged: OnGeometryPropertyChanged);
+			 BindableProperty.Create(nameof(Data), typeof(Geometry), typeof(Path), null);
+				//propertyChanged: OnGeometryPropertyChanged);
 
 		public static readonly BindableProperty RenderTransformProperty =
-			BindableProperty.Create(nameof(RenderTransform), typeof(Transform), typeof(Path), null,
-				propertyChanged: OnTransformPropertyChanged);
+			BindableProperty.Create(nameof(RenderTransform), typeof(Transform), typeof(Path), null);
+				//propertyChanged: OnTransformPropertyChanged);
 
 		[TypeConverter(typeof(PathGeometryConverter))]
 		public Geometry Data
@@ -24,6 +26,7 @@ namespace Xamarin.Forms.Shapes
 			get { return (Transform)GetValue(RenderTransformProperty); }
 		}
 
+		/*
 		static void OnGeometryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			if (oldValue != null)
@@ -62,5 +65,6 @@ namespace Xamarin.Forms.Shapes
 				OnPropertyChanged(nameof(RenderTransform));
 			}
 		}
+		*/
 	}
 }

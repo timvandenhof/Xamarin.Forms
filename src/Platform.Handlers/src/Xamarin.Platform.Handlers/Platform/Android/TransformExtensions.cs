@@ -1,10 +1,11 @@
-﻿using AMatrix = Android.Graphics.Matrix;
+﻿using Xamarin.Forms;
+using AMatrix = Android.Graphics.Matrix;
 
-namespace Xamarin.Forms.Platform.Android
+namespace Xamarin.Platform
 {
 	public static class TransformExtensions
 	{
-		public static AMatrix ToAndroid(this Transform transform, float density = 1)
+		public static AMatrix ToNative(this Transform? transform, float density = 1)
 		{
 			AMatrix aMatrix = new AMatrix();
 

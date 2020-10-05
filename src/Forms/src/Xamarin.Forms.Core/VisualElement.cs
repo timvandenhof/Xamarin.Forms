@@ -58,7 +58,9 @@ namespace Xamarin.Forms
 
 		internal static readonly BindableProperty TransformProperty = BindableProperty.Create("Transform", typeof(string), typeof(VisualElement), null, propertyChanged: OnTransformChanged);
 
-		public static readonly BindableProperty ClipProperty = BindableProperty.Create(nameof(Clip), typeof(Geometry), typeof(VisualElement), null,
+		public static readonly BindableProperty ClipProperty = BindableProperty.Create(nameof(Clip), typeof(Geometry), typeof(VisualElement), null);
+		// TODO: Code commented because Geometry has been moved to Xamarin.Platform where BindableProperties are not used.
+		/*
 			propertyChanging: (bindable, oldvalue, newvalue) =>
 			{
 				if (oldvalue != null)
@@ -91,6 +93,7 @@ namespace Xamarin.Forms
 					geometryGroup.InvalidateGeometryRequested -= InvalidateGeometryRequested;
 			}
 		}
+		*/
 
 		void OnClipChanged(object sender, PropertyChangedEventArgs e)
 		{

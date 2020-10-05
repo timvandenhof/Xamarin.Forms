@@ -10,11 +10,13 @@
 
 		public static void MapPoints(PolygonHandler handler, IPolygon polygon)
 		{
+			ViewHandler.CheckParameters(handler, polygon);
 			handler.TypedNativeView?.UpdatePoints(polygon);
 		}
 
 		public static void MapFillRule(PolygonHandler handler, IPolygon polygon)
 		{
+			ViewHandler.CheckParameters(handler, polygon);
 			handler.TypedNativeView?.UpdateFillRule(polygon);
 		}
 

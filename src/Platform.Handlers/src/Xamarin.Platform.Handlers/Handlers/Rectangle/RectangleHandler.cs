@@ -10,11 +10,13 @@
 
 		public static void MapRadiusX(RectangleHandler handler, IRectangle rectangle)
 		{
+			ViewHandler.CheckParameters(handler, rectangle);
 			handler.TypedNativeView?.UpdateRadiusX(rectangle);
 		}
 
 		public static void MapRadiusY(RectangleHandler handler, IRectangle rectangle)
 		{
+			ViewHandler.CheckParameters(handler, rectangle);
 			handler.TypedNativeView?.UpdateRadiusY(rectangle);
 		}
 

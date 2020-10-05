@@ -6,7 +6,7 @@ namespace Xamarin.Platform
 {
     public class NativePath : NativeShape
     {
-        public NativePath(Context context) : base(context)
+        public NativePath(Context? context) : base(context)
         {
         }
 

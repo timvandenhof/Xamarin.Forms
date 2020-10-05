@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoreGraphics;
 using Xamarin.Forms.Shapes;
+using Xamarin.Platform;
 
 #if __MOBILE__
 namespace Xamarin.Forms.Platform.iOS

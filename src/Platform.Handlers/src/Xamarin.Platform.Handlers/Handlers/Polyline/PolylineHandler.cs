@@ -10,11 +10,13 @@
 
 		public static void MapPoints(PolylineHandler handler, IPolyline polyline)
 		{
+			ViewHandler.CheckParameters(handler, polyline);
 			handler.TypedNativeView?.UpdatePoints(polyline);
 		}
 
 		public static void MapFillRule(PolylineHandler handler, IPolyline polyline)
 		{
+			ViewHandler.CheckParameters(handler, polyline);
 			handler.TypedNativeView?.UpdateFillRule(polyline);
 		}
 

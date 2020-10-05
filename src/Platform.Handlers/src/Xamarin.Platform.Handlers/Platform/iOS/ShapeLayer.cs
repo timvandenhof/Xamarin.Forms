@@ -51,7 +51,7 @@ namespace Xamarin.Platform
             RenderShape(ctx);
         }
 
-        public void UpdateShape(CGPath path)
+        public void UpdateShape(CGPath? path)
         {
             _path = path;
 

@@ -1,5 +1,4 @@
-﻿
-namespace Xamarin.Forms.Shapes
+﻿namespace Xamarin.Forms.Shapes
 {
 	public sealed class Ellipse : Shape
 	{
