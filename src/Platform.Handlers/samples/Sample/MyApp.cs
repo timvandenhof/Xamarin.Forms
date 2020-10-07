@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sample.Pages;
+using Sample.Services;
 using Xamarin.Platform;
 using Xamarin.Platform.Core;
 
