@@ -1,17 +1,17 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Microsoft.Extensions.Hosting;
 using Xamarin.Platform;
 using Xamarin.Platform.Core;
 
 namespace Sample
 {
-	public class MyApp : IApp
+	public class MyApp : App
 	{
-		public MyApp()
+		public MyApp(IHost host) : base(host)
 		{
-			Platform.Init();
 		}
 
-		public IView CreateView()
+		public override IView CreateView()
 		{
 			var verticalStack = new Xamarin.Platform.VerticalStackLayout() { Spacing = 5, BackgroundColor = Color.AntiqueWhite };
 			var horizontalStack = new Xamarin.Platform.HorizontalStackLayout() { Spacing = 2 };

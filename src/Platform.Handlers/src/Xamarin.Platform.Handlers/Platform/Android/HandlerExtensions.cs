@@ -1,5 +1,9 @@
-﻿using System;
+using System;
+using System.ServiceProcess;
 using Android.Content;
+using Xamarin.Platform.Core;
+using Xamarin.Platform.Handlers;
+using Xamarin.Platform.Hosting;
 using AView = Android.Views.View;
 
 namespace Xamarin.Platform
@@ -15,7 +19,11 @@ namespace Xamarin.Platform
 
 			if (handler == null)
 			{
-				handler = Registrar.Handlers.GetHandler(view.GetType());
+				//handler = Registrar.Handlers.GetHandler(view.GetType());
+				handler = App.Current?.Services.GetHandler(view.GetType());
+
+				if (handler == null)
+					throw new System.Exception($"Handler not found for view {view}");
 
 				if (handler is IAndroidViewHandler ahandler)
 					ahandler.SetContext(context);

@@ -3,6 +3,9 @@ using UIKit;
 using Xamarin.Platform;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Xamarin.Platform.Core;
 
 namespace Sample.iOS
 {
@@ -22,7 +25,14 @@ namespace Sample.iOS
 		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
 		{
 			_window = new UIWindow();
-			var app = new MyApp();
+
+			var host = App.CreateDefaultBuilder<MyApp>()
+						  .Init()
+						  // .RegisterHandler<Button, CustomPinkTextButtonHandler>()
+						  .ConfigureServices(ConfigureExtraServices)
+						  .Build();
+
+			var app = host.Services.GetRequiredService<MyApp>();
 
 			IView content = app.CreateView();
 
@@ -34,6 +44,23 @@ namespace Sample.iOS
 			_window.MakeKeyAndVisible();
 
 			return true;
+		}
+
+		void ConfigureExtraServices(HostBuilderContext ctx, IServiceCollection services)
+		{
+			if (ctx.HostingEnvironment.IsDevelopment())
+			{
+				System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) =>
+				{
+					if (certificate.Issuer.Equals("CN=localhost"))
+						return true;
+					return sslPolicyErrors == System.Net.Security.SslPolicyErrors.None;
+				};
+			}
+
+			//FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+		
+			//services.AddSingleton<ICacheService, CacheService>();
 		}
 
 		public override void OnResignActivation(UIApplication application)

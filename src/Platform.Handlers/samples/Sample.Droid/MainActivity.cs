@@ -3,9 +3,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.App;
-using Xamarin.Forms;
-using AndroidX.Core.Widget;
 using Xamarin.Platform;
+using Xamarin.Platform.Core;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Sample.Droid
 {
@@ -27,8 +28,19 @@ namespace Sample.Droid
 
 			_page = FindViewById<ViewGroup>(Resource.Id.pageLayout);
 
-			var app = new MyApp();
+			var host = App.CreateDefaultBuilder<MyApp>()
+							  .Init()
+							  // .RegisterHandler<Button, CustomPinkTextButtonHandler>()
+							  .ConfigureServices(ConfigureExtraServices)
+							  .Build();
+
+			var app = host.Services.GetRequiredService<MyApp>();
+
 			Add(app.CreateView());
+		}
+
+		void ConfigureExtraServices(HostBuilderContext ctx, IServiceCollection services)
+		{
 		}
 
 		void Add(params IView[] views)
