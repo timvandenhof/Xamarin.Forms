@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Xamarin.Platform.Handlers;
 
 namespace Xamarin.Platform.Hosting
 {
@@ -15,6 +16,8 @@ namespace Xamarin.Platform.Hosting
 
 		static IViewHandler GetHandler(Type type, IServiceProvider services)
 		{
+			//return (IViewHandler)Activator.CreateInstance(typeof(ButtonHandler));
+
 			List<Type> types = new List<Type> { type };
 			foreach (var interfac in type.GetInterfaces())
 			{
@@ -26,10 +29,7 @@ namespace Xamarin.Platform.Hosting
 
 			while (baseType != null)
 			{
-				//if (typeof(IView).IsAssignableFrom(baseType) &&
-				//	baseType.FullName != "System.Object")
 				types.Add(baseType);
-
 				baseType = baseType.BaseType;
 			}
 

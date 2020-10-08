@@ -28,6 +28,7 @@ namespace Xamarin.Platform.Hosting
 					var genericType = typeof(IRenderer<>).MakeGenericType(keyType);
 					var handlerType = typeof(Renderer<,>).MakeGenericType(keyType, valueType);
 					s.AddTransient(genericType, handlerType);
+					//s.AddTransient(typeof(IRenderer<IButton>), typeof(Renderer<IButton, ButtonHandler>));
 				}
 			});
 			return hostBuilder;
@@ -50,6 +51,16 @@ namespace Xamarin.Platform.Hosting
 			hostBuilder.RegisterHandlers(new Dictionary<Type, Type>
 			{
 				{  typeof(IButton), typeof(ButtonHandler) }
+			});
+			return hostBuilder;
+		}
+
+		public static IHostBuilder UseXamarinImageHandlers(this IHostBuilder hostBuilder)
+		{
+			hostBuilder.ConfigureServices((context, collection) =>
+			{
+				//register ImageHandlers
+				//collection.AddSingleton<IUriImageHandler,UriImageHandler>()
 			});
 			return hostBuilder;
 		}
