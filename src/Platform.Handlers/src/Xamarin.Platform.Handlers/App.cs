@@ -23,16 +23,10 @@ namespace Xamarin.Platform.Core
 
 		public abstract IView CreateView();
 
-		public static IHostBuilder CreateDefaultBuilder<TApplication>() where TApplication : class, IApp
+		public static IHostBuilder CreateDefaultBuilder()
 		{
-			var systemDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			var builder = new HostBuilder()
-			.UseContentRoot(systemDir)
-			.UseDefaultServiceProvider((context, options) =>
-			{
-				options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
-			})
-			.ConfigureServices((context, collection) => collection.AddSingleton<TApplication>())
+			.UseContentRoot(Environment.GetFolderPath(Environment.SpecialFolder.Personal))
 			.UseXamarinHandlers();
 
 			return builder;

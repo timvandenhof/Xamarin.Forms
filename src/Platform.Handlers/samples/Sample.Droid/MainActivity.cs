@@ -32,13 +32,11 @@ namespace Sample.Droid
 
 			_page = FindViewById<ViewGroup>(Resource.Id.pageLayout);
 
-			var host = App.CreateDefaultBuilder<MyApp>()
+			var app = App.CreateDefaultBuilder()
 							  .Init()
 							  //.RegisterHandler<IButton, CustomPinkTextButtonHandler>()
 							  .ConfigureServices(ConfigureExtraServices)
-							  .Build();
-
-			var app = host.Services.GetRequiredService<MyApp>();
+							  .Init<MyApp>();
 
 			Add(app.CreateView());
 		}

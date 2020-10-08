@@ -26,9 +26,9 @@ namespace Xamarin.Platform.Hosting
 
 			while (baseType != null)
 			{
-				if (typeof(IView).IsAssignableFrom(baseType) &&
-					baseType.FullName != "System.Object")
-					types.Add(baseType);
+				//if (typeof(IView).IsAssignableFrom(baseType) &&
+				//	baseType.FullName != "System.Object")
+				types.Add(baseType);
 
 				baseType = baseType.BaseType;
 			}

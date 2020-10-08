@@ -54,6 +54,12 @@ namespace Xamarin.Platform
 		public TTypeRender GetHandler(Type type)
 		{
 			List<Type> types = new List<Type> { type };
+			foreach (var interfac in type.GetInterfaces())
+			{
+				if (typeof(IView).IsAssignableFrom(interfac))
+					types.Add(interfac);
+
+			}
 			Type baseType = type.BaseType;
 
 			while (baseType != null)

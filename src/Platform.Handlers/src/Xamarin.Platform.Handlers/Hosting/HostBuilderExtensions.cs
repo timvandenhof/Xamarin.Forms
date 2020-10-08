@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Xamarin.Platform.Core;
 using Xamarin.Platform.Handlers;
 
 namespace Xamarin.Platform.Hosting
@@ -51,6 +52,14 @@ namespace Xamarin.Platform.Hosting
 				{  typeof(IButton), typeof(ButtonHandler) }
 			});
 			return hostBuilder;
+		}
+
+		public static TApplication Init<TApplication>(this IHostBuilder hostBuilder) where TApplication : class, IApp
+		{
+			hostBuilder.ConfigureServices((context, collection) => collection.AddSingleton<TApplication>());
+			var host = hostBuilder.Build();
+			var app = host.Services.GetRequiredService<TApplication>();
+			return app;
 		}
 	}
 }
