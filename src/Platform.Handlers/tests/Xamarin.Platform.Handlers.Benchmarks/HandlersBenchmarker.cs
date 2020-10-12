@@ -15,8 +15,8 @@ namespace Xamarin.Platform.Handlers.Benchmarks
 		[GlobalSetup(Target = nameof(GetHandlerUsingDI))]
 		public void GlobalSetupForDI()
 		{
-			_app = App.CreateDefaultBuilder()
-						.Init<MockApp>();
+			var builder = App.CreateDefaultBuilder();
+			_app = builder.Init<MockApp>();
 		}
 
 		[GlobalSetup(Target = nameof(GetHandlerUsingRegistrar))]
@@ -30,14 +30,13 @@ namespace Xamarin.Platform.Handlers.Benchmarks
 		{
 			for (int i = 0; i < _numberOfItems; i++)
 			{
-				var defaultHandler = App.Current.Services.GetHandler(typeof(IButton));
+				var defaultHandler = _app.Handlers.GetHandler(typeof(IButton));
 			}
 		}
 
 		[Benchmark]
 		public void GetHandlerUsingRegistrar()
 		{
-		
 			for (int i = 0; i < _numberOfItems; i++)
 			{
 				var defaultHandler = Registrar.Handlers.GetHandler<IButton>();

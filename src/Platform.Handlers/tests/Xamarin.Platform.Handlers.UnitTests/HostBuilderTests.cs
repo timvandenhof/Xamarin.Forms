@@ -189,7 +189,7 @@ namespace Xamarin.Platform.Handlers.Tests
 							.RegisterHandler<IMockView, MockViewHadler>()
 							.Init<MockApp>();
 
-			var handler = App.Current.Services.GetHandler(typeof(IMockView));
+			var handler = App.Current.Handlers.GetHandler(typeof(IMockView));
 			Assert.IsNotNull(handler);
 			Assert.IsInstanceOf(typeof(MockViewHadler), handler);
 		}
@@ -201,7 +201,7 @@ namespace Xamarin.Platform.Handlers.Tests
 							.RegisterHandlers(new Dictionary<Type, Type> { { typeof(IMockView), typeof(MockViewHadler) } })
 							.Init<MockApp>();
 
-			var handler = App.Current.Services.GetHandler(typeof(IMockView));
+			var handler = App.Current.Handlers.GetHandler(typeof(IMockView));
 			Assert.IsNotNull(handler);
 			Assert.IsInstanceOf(typeof(MockViewHadler), handler);
 		}
@@ -213,7 +213,7 @@ namespace Xamarin.Platform.Handlers.Tests
 							.RegisterHandler<IMockView, MockViewHadler>()
 							.Init<MockApp>();
 
-			var handler = App.Current.Services.GetHandler(typeof(MockView));
+			var handler = App.Current.Handlers.GetHandler(typeof(MockView));
 			Assert.IsNotNull(handler);
 			Assert.IsInstanceOf(typeof(MockViewHadler), handler);
 		}
@@ -224,7 +224,7 @@ namespace Xamarin.Platform.Handlers.Tests
 			var app = App.CreateDefaultBuilder()
 							.Init<MockApp>();
 
-			var handler = App.Current.Services.GetHandler(typeof(IButton));
+			var handler = App.Current.Handlers.GetHandler(typeof(IButton));
 			Assert.IsNotNull(handler);
 			Assert.IsInstanceOf(typeof(ButtonHandler), handler);
 		}
@@ -236,8 +236,8 @@ namespace Xamarin.Platform.Handlers.Tests
 							.RegisterHandler<MockButton, MockButtonHadler>()
 							.Init<MockApp>();
 
-			var defaultHandler = App.Current.Services.GetHandler(typeof(IButton));
-			var specificHandler = App.Current.Services.GetHandler(typeof(MockButton));
+			var defaultHandler = App.Current.Handlers.GetHandler(typeof(IButton));
+			var specificHandler = App.Current.Handlers.GetHandler(typeof(MockButton));
 			Assert.IsNotNull(defaultHandler);
 			Assert.IsNotNull(specificHandler);
 			Assert.IsInstanceOf(typeof(ButtonHandler), defaultHandler);
@@ -254,7 +254,7 @@ namespace Xamarin.Platform.Handlers.Tests
 			Stopwatch watch = Stopwatch.StartNew();
 			for (int i = 0; i < iterations; i++)
 			{
-				var defaultHandler = App.Current.Services.GetHandler(typeof(Button));
+				var defaultHandler = App.Current.Handlers.GetHandler(typeof(Button));
 				Assert.NotNull(defaultHandler);
 			}
 			watch.Stop();
@@ -270,7 +270,7 @@ namespace Xamarin.Platform.Handlers.Tests
 			watch.Stop();
 			var totalRegistrar = watch.ElapsedMilliseconds;
 
-		//	Assert.LessOrEqual(total, totalRegistrar);
+			Assert.LessOrEqual(total, totalRegistrar);
 			Console.WriteLine($"Elapsed time DI: {total} and Registrar: {totalRegistrar}");
 		}
 	}

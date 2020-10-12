@@ -9,41 +9,22 @@ namespace Xamarin.Platform.Hosting
 {
 	public static class HostBuilderExtensions
 	{
-		internal interface IRenderer<TType> where TType : IFrameworkElement { }
-
-		class Renderer<TType, TTypeRender> : IRenderer<TType>
-				where TType : IFrameworkElement
-				where TTypeRender : IViewHandler
-		{
-		}
-
+		static HandlerServiceCollection s_handlersCollection = new HandlerServiceCollection();
 		public static IHostBuilder RegisterHandlers(this IHostBuilder hostBuilder, Dictionary<Type, Type> handlers)
 		{
-			hostBuilder.ConfigureServices(s =>
-			{
-				foreach (var handler in handlers)
-				{
-					var keyType = handler.Key;
-					var valueType = handler.Value;
-					var genericType = typeof(IRenderer<>).MakeGenericType(keyType);
-					var handlerType = typeof(Renderer<,>).MakeGenericType(keyType, valueType);
-					s.AddTransient(genericType, handlerType);
-					//s.AddTransient(typeof(IRenderer<IButton>), typeof(Renderer<IButton, ButtonHandler>));
-				}
-			});
-			return hostBuilder;
+			foreach (var handler in handlers)
+				s_handlersCollection.AddTransient(handler.Key, handler.Value);
+
+			return BuildAndRegisterHandlersProvider(hostBuilder);
 		}
 
 		public static IHostBuilder RegisterHandler<TType, TTypeRender>(this IHostBuilder hostBuilder)
 			where TType : IFrameworkElement
 			where TTypeRender : IViewHandler
 		{
-			hostBuilder.ConfigureServices(s =>
-			{
-				s.AddTransient(typeof(IRenderer<TType>), typeof(Renderer<TType, TTypeRender>));
-			});
+			s_handlersCollection.AddTransient(typeof(TType), typeof(TTypeRender));
 
-			return hostBuilder;
+			return BuildAndRegisterHandlersProvider(hostBuilder);
 		}
 
 		public static IHostBuilder UseXamarinHandlers(this IHostBuilder hostBuilder)
@@ -71,6 +52,14 @@ namespace Xamarin.Platform.Hosting
 			var host = hostBuilder.Build();
 			var app = host.Services.GetRequiredService<TApplication>();
 			return app;
+		}
+
+		static IHostBuilder BuildAndRegisterHandlersProvider(IHostBuilder hostBuilder)
+		{
+			var handlersProvider = s_handlersCollection.BuildHandlerServiceProvider();
+			hostBuilder.ConfigureServices((context, collection) => collection.AddSingleton(handlersProvider));
+
+			return hostBuilder;
 		}
 	}
 }

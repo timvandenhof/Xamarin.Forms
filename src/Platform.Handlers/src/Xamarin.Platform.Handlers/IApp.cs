@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
+using Xamarin.Platform.Hosting;
 
 namespace Xamarin.Platform.Core
 {
@@ -8,7 +9,9 @@ namespace Xamarin.Platform.Core
 		IHost Host { get; }
 
 		IServiceProvider Services { get; }
-		
+
+		IHandlerServiceProvider Handlers { get; }
+
 		IView CreateView();
 	}
 }

@@ -1,52 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Xamarin.Platform.Handlers;
 
 namespace Xamarin.Platform.Hosting
 {
 	public static class ServiceProviderExtensions
 	{
-		public static IViewHandler? GetHandler(this IServiceProvider services, Type type)
-		{
-			var handler = GetHandler(type, services);
-			return handler;
-		}
+		internal static IHandlerServiceProvider BuildHandlerServiceProvider(this HandlerServiceCollection serviceCollection)
+			=> new HandlerServiceProvider(serviceCollection._handler);
 
-		static IViewHandler GetHandler(Type type, IServiceProvider services)
-		{
-			//return (IViewHandler)Activator.CreateInstance(typeof(ButtonHandler));
-
-			List<Type> types = new List<Type> { type };
-			foreach (var interfac in type.GetInterfaces())
-			{
-				if (typeof(IView).IsAssignableFrom(interfac))
-					types.Add(interfac);
-
-			}
-			Type baseType = type.BaseType;
-
-			while (baseType != null)
-			{
-				types.Add(baseType);
-				baseType = baseType.BaseType;
-			}
-
-			foreach (var t in types)
-			{
-				var generic = typeof(HostBuilderExtensions.IRenderer<>).MakeGenericType(t);
-				var handlersForType = services.GetServices(generic);
-				var handlerForType = handlersForType.LastOrDefault();
-				var serviceGenerics = handlerForType?.GetType().GetGenericArguments();
-				if (serviceGenerics?.Length > 1)
-				{
-					var newObject = Activator.CreateInstance(serviceGenerics[1]);
-					return (IViewHandler)newObject;
-				}
-			}
-
-			return default!;
-		}
+		public static IViewHandler? GetHandler(this IServiceProvider services, Type type) 
+			=> services?.GetService(type) as IViewHandler;
 	}
 }

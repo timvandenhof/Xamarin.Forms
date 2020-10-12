@@ -9,17 +9,22 @@ namespace Xamarin.Platform.Core
 	{
 		static App? s_current;
 		readonly IHost _host;
+		readonly IHandlerServiceProvider _handlers;
 
 		protected App(IHost host)
 		{
 			_host = host;
+			_handlers = Services.GetRequiredService<IHandlerServiceProvider>();
 			s_current = this;
 		}
 
 		public static App? Current => s_current;
 
 		public IHost Host => _host;
+
 		public IServiceProvider Services => Host.Services;
+
+		public IHandlerServiceProvider Handlers => _handlers;
 
 		public abstract IView CreateView();
 
