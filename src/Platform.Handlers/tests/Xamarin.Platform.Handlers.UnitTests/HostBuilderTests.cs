@@ -273,5 +273,20 @@ namespace Xamarin.Platform.Handlers.Tests
 			Assert.LessOrEqual(total, totalRegistrar);
 			Console.WriteLine($"Elapsed time DI: {total} and Registrar: {totalRegistrar}");
 		}
+
+		IHostBuilder _builder;
+
+		[Test]
+		public void Register100Handlers()
+		{
+			int iterations = 10000;
+			_builder = new HostBuilder()
+				.UseContentRoot(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+			for (int i = 0; i < iterations; i++)
+			{
+				_builder.RegisterHandler<IButton, ButtonHandler>();
+			}
+			var host = _builder.Build();
+		}
 	}
 }

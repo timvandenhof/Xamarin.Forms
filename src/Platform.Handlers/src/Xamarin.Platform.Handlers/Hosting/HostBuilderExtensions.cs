@@ -15,7 +15,7 @@ namespace Xamarin.Platform.Hosting
 			foreach (var handler in handlers)
 				s_handlersCollection.AddTransient(handler.Key, handler.Value);
 
-			return BuildAndRegisterHandlersProvider(hostBuilder);
+			return hostBuilder;
 		}
 
 		public static IHostBuilder RegisterHandler<TType, TTypeRender>(this IHostBuilder hostBuilder)
@@ -24,7 +24,7 @@ namespace Xamarin.Platform.Hosting
 		{
 			s_handlersCollection.AddTransient(typeof(TType), typeof(TTypeRender));
 
-			return BuildAndRegisterHandlersProvider(hostBuilder);
+			return hostBuilder;
 		}
 
 		public static IHostBuilder UseXamarinHandlers(this IHostBuilder hostBuilder)
@@ -48,6 +48,7 @@ namespace Xamarin.Platform.Hosting
 
 		public static TApplication Init<TApplication>(this IHostBuilder hostBuilder) where TApplication : class, IApp
 		{
+			BuildAndRegisterHandlersProvider(hostBuilder);
 			hostBuilder.ConfigureServices((context, collection) => collection.AddSingleton<TApplication>());
 			var host = hostBuilder.Build();
 			var app = host.Services.GetRequiredService<TApplication>();
