@@ -1,5 +1,6 @@
 ﻿using Android.OS;
 using Android.Widget;
+using Xamarin.Platform;
 using AGravityFlags = Android.Views.GravityFlags;
 
 namespace Xamarin.Forms.Platform.Android

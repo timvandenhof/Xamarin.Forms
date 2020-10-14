@@ -5,6 +5,7 @@ using CoreGraphics;
 using Foundation;
 using UIKit;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using Xamarin.Platform;
 
 namespace Xamarin.Forms.Platform.iOS
 {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using UIKit;
+using Xamarin.Platform;
 
 namespace Xamarin.Forms.Platform.iOS
 {

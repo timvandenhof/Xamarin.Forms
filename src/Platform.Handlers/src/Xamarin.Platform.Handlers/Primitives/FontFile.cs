@@ -6,11 +6,11 @@ namespace Xamarin.Forms
 {
 	public class FontFile
 	{
-		public string FileName { get; set; }
-		public string Extension { get; set; }
-		public string FileNameWithExtension(string extension) => $"{FileName}{extension}";
+		public string? FileName { get; set; }
+		public string? Extension { get; set; }
+		public string FileNameWithExtension(string? extension) => $"{FileName}{extension}";
 		public string FileNameWithExtension() => FileNameWithExtension(Extension);
-		public string PostScriptName { get; set; }
+		public string? PostScriptName { get; set; }
 
 		public string GetPostScriptNameWithSpaces() =>
 			string.Join(" ", GetFontName(PostScriptName));
@@ -43,14 +43,18 @@ namespace Xamarin.Forms
 		}
 
 
-		static IEnumerable<string> GetFontName(string fontFamily)
+		static IEnumerable<string> GetFontName(string? fontFamily)
 		{
-			if (fontFamily.Contains(" "))
+			if (string.IsNullOrEmpty(fontFamily))
+				yield return string.Empty;
+
+			if (fontFamily!.Contains(" "))
 			{
 				yield return fontFamily;
 				//We are done, they have spaces, they have it handled.
 				yield break;
 			}
+
 			string currentString = "";
 			char lastCharacter = ' ';
 			var index = fontFamily.LastIndexOf("-", StringComparison.Ordinal);
@@ -58,21 +62,20 @@ namespace Xamarin.Forms
 			var cleansedString = index > 0 ? fontFamily.Substring(0, index) : fontFamily;
 			foreach (var c in cleansedString)
 			{
-				//Always break on these characters
+				// Always break on these characters
 				if (c == '_' || c == '-')
 				{
 					yield return currentString;
-					//Reset everything,
+					// Reset everything,
 					currentString = "";
 					lastCharacter = ' ';
 					multipleCaps = false;
 				}
 				else
 				{
-
 					if (char.IsUpper(c))
 					{
-						//If the last character is lowercase, we are in a new CamelCase font
+						// If the last character is lowercase, we are in a new CamelCase font
 						if (char.IsLower(lastCharacter))
 						{
 							yield return currentString;
@@ -85,12 +88,12 @@ namespace Xamarin.Forms
 						}
 					}
 
-					//Detect multiple UpperCase letters so we can separate things like PTSansNarrow into "PT Sans Narrow"
+					// Detect multiple UpperCase letters so we can separate things like PTSansNarrow into "PT Sans Narrow"
 					else if (multipleCaps && currentString.Length > 1)
 					{
 						var last = currentString[currentString.Length - 1];
 						yield return currentString.Substring(0, currentString.Length - 1);
-						//Reset everything so it doesnt do a space
+						// Reset everything so it doesnt do a space
 						multipleCaps = false;
 						lastCharacter = ' ';
 						currentString = last.ToString();
@@ -100,7 +103,7 @@ namespace Xamarin.Forms
 					lastCharacter = c;
 				}
 			}
-			//Send what is left!
+			// Send what is left!
 			if (!string.IsNullOrWhiteSpace(currentString))
 				yield return currentString.Trim();
 		}

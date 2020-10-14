@@ -8,6 +8,7 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.Core.View;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+using Xamarin.Platform;
 using AColor = Android.Graphics.Color;
 using AView = Android.Views.View;
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms.Internals;
+using Xamarin.Platform;
+
 #if __MOBILE__
 using UIKit;
 using NativeFont = UIKit.UIFont;
@@ -15,6 +17,7 @@ namespace Xamarin.Forms.Platform.MacOS
 {
 	public static partial class FontExtensions
 	{
+		[PortHandler]
 		static readonly Dictionary<ToNativeFontFontKey, NativeFont> ToUiFont = new Dictionary<ToNativeFontFontKey, NativeFont>();
 
 		internal static bool IsDefault(this Span self)
@@ -31,6 +34,7 @@ namespace Xamarin.Forms.Platform.MacOS
 			return ToNativeFont(fontFamily, fontSize, fontAttributes, _ToNativeFont);
 		}
 
+		[PortHandler]
 		static NativeFont ToNativeFont(this Font self)
 		{
 			var size = (float)self.FontSize;
@@ -61,6 +65,7 @@ namespace Xamarin.Forms.Platform.MacOS
 			return ToNativeFont(self.FontFamily, size, fontAttributes, _ToNativeFont);
 		}
 
+		[PortHandler]
 		static NativeFont ToNativeFont(string family, float size, FontAttributes attributes, Func<string, float, FontAttributes, NativeFont> factory)
 		{
 			var key = new ToNativeFontFontKey(family, size, attributes);
@@ -83,6 +88,7 @@ namespace Xamarin.Forms.Platform.MacOS
 			}
 		}
 
+		[PortHandler]
 		struct ToNativeFontFontKey
 		{
 			internal ToNativeFontFontKey(string family, float size, FontAttributes attributes)

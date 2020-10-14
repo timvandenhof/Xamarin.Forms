@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using Xamarin.Platform;
 using RectangleF = CoreGraphics.CGRect;
 
 namespace Xamarin.Forms.Platform.iOS
 {
+	[PortHandler]
 	internal class ReadOnlyField : NoCaretField
 	{
 		readonly HashSet<string> enableActions;
@@ -56,6 +57,8 @@ namespace Xamarin.Forms.Platform.iOS
 		}
 
 		protected abstract override TControl CreateNativeControl();
+
+		[PortHandler]
 		protected override void OnElementChanged(ElementChangedEventArgs<Picker> e)
 		{
 			if (e.OldElement != null)
@@ -177,12 +180,14 @@ namespace Xamarin.Forms.Platform.iOS
 			ElementController.SetValueFromRenderer(VisualElement.IsFocusedPropertyKey, true);
 		}
 
+		[PortHandler]
 		void RowsCollectionChanged(object sender, EventArgs e)
 		{
 			UpdatePicker();
 		}
 
-        protected void UpdateCharacterSpacing()
+		[PortHandler]
+		protected void UpdateCharacterSpacing()
         {
 			var textAttr = Control.AttributedText.AddCharacterSpacing(Control.Text, Element.CharacterSpacing);
 
@@ -195,7 +200,8 @@ namespace Xamarin.Forms.Platform.iOS
 				UpdateAttributedPlaceholder(placeHolder);
 		}
 
-        protected internal virtual void UpdateFont()
+		[PortHandler]
+		protected internal virtual void UpdateFont()
 		{
 			Control.Font = Element.ToUIFont();			
 		}
@@ -225,9 +231,11 @@ namespace Xamarin.Forms.Platform.iOS
 			UpdateAttributedPlaceholder(Control.AttributedPlaceholder.AddCharacterSpacing(Element.Title, Element.CharacterSpacing));
 		}
 
+		[PortHandler]
 		protected virtual void UpdateAttributedPlaceholder(NSAttributedString nsAttributedString) => 
 			Control.AttributedPlaceholder = nsAttributedString;
 
+		[PortHandler]
 		void UpdatePicker()
 		{
 			var selectedIndex = Element.SelectedIndex;
@@ -246,6 +254,7 @@ namespace Xamarin.Forms.Platform.iOS
 			UpdateCharacterSpacing();
 		}
 
+		[PortHandler]
 		void UpdatePickerFromModel(PickerSource s)
 		{
 			if (Element != null)
@@ -263,6 +272,7 @@ namespace Xamarin.Forms.Platform.iOS
 				((IVisualElementController)Element).NativeSizeChanged();
 		}
 
+		[PortHandler]
 		void UpdatePickerSelectedIndex(int formsIndex)
 		{
 			var source = (PickerSource)_picker.Model;
@@ -271,15 +281,19 @@ namespace Xamarin.Forms.Platform.iOS
 			_picker.Select(Math.Max(formsIndex, 0), 0, true);
 		}
 
+		[PortHandler]
 		void UpdateHorizontalTextAlignment()
 		{
 			Control.TextAlignment = Element.HorizontalTextAlignment.ToNativeTextAlignment(((IVisualElementController)Element).EffectiveFlowDirection);
 		}
+
+		[PortHandler]
 		void UpdateVerticalTextAlignment()
 		{
 			Control.VerticalAlignment = Element.VerticalTextAlignment.ToNativeTextAlignment();			
 		}
 
+		[PortHandler]
 		protected internal virtual void UpdateTextColor()
 		{
 			var textColor = Element.TextColor;
@@ -291,8 +305,9 @@ namespace Xamarin.Forms.Platform.iOS
 
 			// HACK This forces the color to update; there's probably a more elegant way to make this happen
 			Control.Text = Control.Text;			
-		}		
+		}
 
+		[PortHandler]
 		protected override void Dispose(bool disposing)
 		{
 			if (_disposed)
@@ -331,6 +346,7 @@ namespace Xamarin.Forms.Platform.iOS
 			base.Dispose(disposing);
 		}
 
+		[PortHandler]
 		class PickerSource : UIPickerViewModel
 		{
 			PickerRendererBase<TControl> _renderer;

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using Foundation;
 using System.Collections.Specialized;
 using System.Linq;
+using Xamarin.Platform;
 
 namespace Xamarin.Forms.Platform.MacOS
 {
@@ -14,6 +15,7 @@ namespace Xamarin.Forms.Platform.MacOS
 
 		IElementController ElementController => Element;
 
+		[PortHandler]
 		protected override void OnElementChanged(ElementChangedEventArgs<Picker> e)
 		{
 			if (e.OldElement != null)
@@ -75,6 +77,7 @@ namespace Xamarin.Forms.Platform.MacOS
 			Control.Cell.BackgroundColor = color == Color.Default ? _defaultBackgroundColor : color.ToNSColor();
 		}
 
+		[PortHandler]
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -92,6 +95,7 @@ namespace Xamarin.Forms.Platform.MacOS
 			base.Dispose(disposing);
 		}
 
+		[PortHandler]
 		void ComboBoxSelectionChanged(object sender, EventArgs e)
 		{
 			ElementController?.SetValueFromRenderer(Picker.SelectedIndexProperty, (int)Control.IndexOfSelectedItem);
@@ -107,11 +111,13 @@ namespace Xamarin.Forms.Platform.MacOS
 			ElementController?.SetValueFromRenderer(VisualElement.IsFocusedPropertyKey, true);
 		}
 
+		[PortHandler]
 		void RowsCollectionChanged(object sender, EventArgs e)
 		{
 			UpdatePicker();
 		}
 
+		[PortHandler]
 		void UpdateFont()
 		{
 			if (Control == null || Element == null)
@@ -120,6 +126,7 @@ namespace Xamarin.Forms.Platform.MacOS
 			//Control.Menu.Font = Element.ToNSFont();
 		}
 
+		[PortHandler]
 		void UpdatePicker()
 		{
 			if (Control == null || Element == null)
@@ -135,6 +142,7 @@ namespace Xamarin.Forms.Platform.MacOS
 			Control.SelectItem(selectedIndex);
 		}
 
+		[PortHandler]
 		void UpdateTextColor()
 		{
 			if (Control == null || Element == null)

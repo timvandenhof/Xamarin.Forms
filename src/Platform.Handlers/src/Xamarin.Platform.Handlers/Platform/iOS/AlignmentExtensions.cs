@@ -1,13 +1,14 @@
-using UIKit;
-using Xamarin.Forms.Internals;
+﻿using UIKit;
+using Xamarin.Forms;
 
-namespace Xamarin.Forms.Platform.iOS
+namespace Xamarin.Platform
 {
-	internal static class AlignmentExtensions
+	public static class AlignmentExtensions
 	{
-		internal static UITextAlignment ToNativeTextAlignment(this TextAlignment alignment, EffectiveFlowDirection flowDirection)
+		public static UITextAlignment ToNativeTextAlignment(this TextAlignment alignment, EffectiveFlowDirection flowDirection)
 		{
 			var isLtr = flowDirection.IsLeftToRight();
+
 			switch (alignment)
 			{
 				case TextAlignment.Center:
@@ -25,7 +26,7 @@ namespace Xamarin.Forms.Platform.iOS
 			}
 		}
 
-		internal static UIControlContentVerticalAlignment ToNativeTextAlignment(this TextAlignment alignment)
+		public static UIControlContentVerticalAlignment ToNativeTextAlignment(this TextAlignment alignment)
 		{
 			switch (alignment)
 			{

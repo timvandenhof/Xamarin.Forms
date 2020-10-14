@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using Foundation;
 using UIKit;
+using Xamarin.Platform;
 using RectangleF = CoreGraphics.CGRect;
 
 namespace Xamarin.Forms.Platform.iOS

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Foundation;
+﻿using Foundation;
 using UIKit;
 using Xamarin.Forms;
 
@@ -28,6 +25,5 @@ namespace Xamarin.Platform
 			nativeButton.UpdateColor(button.Color, nativeButton.TitleColor(UIControlState.Normal).ToColor());
 
 		static Color Cleanse(this Color color, Color defaultColor) => color.IsDefault ? defaultColor : color;
-
 	}
 }

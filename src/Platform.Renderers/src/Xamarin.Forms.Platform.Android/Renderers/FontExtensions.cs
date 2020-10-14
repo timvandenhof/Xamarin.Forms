@@ -2,18 +2,20 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using Android.Graphics;
-using Xamarin.Forms.Core;
 using Xamarin.Forms.Internals;
+using Xamarin.Platform;
 using AApplication = Android.App.Application;
 
 namespace Xamarin.Forms.Platform.Android
 {
 	public static class FontExtensions
 	{
+		[PortHandler]
 		static readonly ConcurrentDictionary<Tuple<string, FontAttributes>, Typeface> Typefaces = new ConcurrentDictionary<Tuple<string, FontAttributes>, Typeface>();
 
 		static Typeface s_defaultTypeface;
 
+		[PortHandler]
 		public static float ToScaledPixel(this Font self)
 		{
 			if (self.IsDefault)
@@ -128,6 +130,7 @@ namespace Xamarin.Forms.Platform.Android
 			}
 		}
 
+		[PortHandler]
 		public static Typeface ToTypeface(this Font self)
 		{
 			if (self.IsDefault || (self.FontAttributes == FontAttributes.None && string.IsNullOrEmpty(self.FontFamily)))
@@ -141,6 +144,7 @@ namespace Xamarin.Forms.Platform.Android
 			return self.FontFamily == null && self.FontSize == Device.GetNamedSize(NamedSize.Default, typeof(Label), true) && self.FontAttributes == FontAttributes.None;
 		}
 
+		[PortHandler]
 		static bool IsAssetFontFamily(string name)
 		{
 			return name != null && (name.Contains(".ttf#") || name.Contains(".otf#"));
@@ -154,13 +158,14 @@ namespace Xamarin.Forms.Platform.Android
 			return ToTypeface(self.FontFamily, self.FontAttributes);
 		}
 
-
+		[PortHandler]
 		static Typeface ToTypeface(string fontFamily, FontAttributes fontAttributes)
 		{
 			fontFamily = fontFamily ?? String.Empty;
 			return Typefaces.GetOrAdd(new Tuple<string, FontAttributes>(fontFamily, fontAttributes), CreateTypeface);
 		}
 
+		[PortHandler]
 		static Typeface CreateTypeface(Tuple<string, FontAttributes> key)
 		{
 			Typeface result;
@@ -184,6 +189,7 @@ namespace Xamarin.Forms.Platform.Android
 			return result;
 		}
 
+		[PortHandler]
 		public static TypefaceStyle ToTypefaceStyle(FontAttributes attrs)
 		{
 			var style = TypefaceStyle.Normal;
@@ -196,6 +202,7 @@ namespace Xamarin.Forms.Platform.Android
 			return style;
 		}
 
+		[PortHandler]
 		static string FontNameToFontFile(string fontFamily)
 		{
 			fontFamily = fontFamily ?? String.Empty;

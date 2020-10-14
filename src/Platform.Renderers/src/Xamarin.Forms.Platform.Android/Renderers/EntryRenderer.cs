@@ -12,6 +12,7 @@ using Android.Widget;
 using AndroidX.Core.Content;
 using Java.Lang;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+using Xamarin.Platform;
 
 namespace Xamarin.Forms.Platform.Android
 {

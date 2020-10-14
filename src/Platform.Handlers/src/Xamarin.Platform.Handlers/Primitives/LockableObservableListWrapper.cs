@@ -1,13 +1,11 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms.Internals;
 
-namespace Xamarin.Forms.Internals
+namespace Xamarin.Forms
 {
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public class LockableObservableListWrapper : IList<string>, ICollection<string>, INotifyCollectionChanged, INotifyPropertyChanged, IReadOnlyList<string>, IReadOnlyCollection<string>, IEnumerable<string>, IEnumerable

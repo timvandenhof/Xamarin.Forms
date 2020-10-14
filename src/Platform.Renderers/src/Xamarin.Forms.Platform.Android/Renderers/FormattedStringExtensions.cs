@@ -1,11 +1,10 @@
-using System;
-using System.Diagnostics;
 using System.Text;
 using Android.Graphics;
 using Android.Text;
 using Android.Text.Style;
 using Android.Util;
 using Android.Widget;
+using Xamarin.Platform;
 
 namespace Xamarin.Forms.Platform.Android
 {
