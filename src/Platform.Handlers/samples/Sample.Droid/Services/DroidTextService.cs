@@ -2,7 +2,7 @@
 
 namespace Sample.Droid.Services
 {
-	public class TextService : ITextService
+	public class DroidTextService : ITextService
 	{
 		public string GetText() => "Hello From Android";
 	}

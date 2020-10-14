@@ -1,14 +1,12 @@
 ﻿using Foundation;
 using UIKit;
 using Xamarin.Platform;
-using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Platform.Core;
 using Xamarin.Platform.Hosting;
 using Sample.Services;
-using Sample.iOS.CustomHandlers;
 
 namespace Sample.iOS
 {
@@ -30,9 +28,9 @@ namespace Sample.iOS
 			_window = new UIWindow();
 
 			var app = App.CreateDefaultBuilder()
-						  .Init()
+						  .UserInit()
 						  .ConfigureServices(ConfigureExtraServices)
-						  //.RegisterHandler<IButton, CustomPinkTextButtonHandler>()
+						  //.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
 						  .Init<MyApp>();
 
 			IView content = app.CreateView();
@@ -59,7 +57,7 @@ namespace Sample.iOS
 				};
 			}
 
-			services.AddSingleton<ITextService, Sample.iOS.Services.TextService>();
+			services.AddSingleton<ITextService, Services.iOSTextService>();
 		}
 
 		public override void OnResignActivation(UIApplication application)

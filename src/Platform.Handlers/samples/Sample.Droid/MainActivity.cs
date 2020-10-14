@@ -8,9 +8,7 @@ using Xamarin.Platform.Core;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Services;
-using Sample.Droid.Services;
 using Xamarin.Platform.Hosting;
-using Sample.Droid.CustomHandlers;
 
 namespace Sample.Droid
 {
@@ -33,8 +31,8 @@ namespace Sample.Droid
 			_page = FindViewById<ViewGroup>(Resource.Id.pageLayout);
 
 			var app = App.CreateDefaultBuilder()
-							  .Init()
-							  //.RegisterHandler<IButton, CustomPinkTextButtonHandler>()
+							  .UserInit()
+							  //.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
 							  .ConfigureServices(ConfigureExtraServices)
 							  .Init<MyApp>();
 
@@ -43,7 +41,7 @@ namespace Sample.Droid
 
 		void ConfigureExtraServices(HostBuilderContext ctx, IServiceCollection services)
 		{
-			services.AddSingleton<ITextService, Sample.Droid.Services.TextService>();
+			services.AddSingleton<ITextService, Services.DroidTextService>();
 		}
 
 		void Add(params IView[] views)
