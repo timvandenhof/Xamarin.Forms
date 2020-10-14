@@ -32,7 +32,7 @@ namespace Sample.iOS
 			var app = App.CreateDefaultBuilder()
 						  .Init()
 						  .ConfigureServices(ConfigureExtraServices)
-						  .RegisterHandler<IButton, CustomPinkTextButtonHandler>()
+						  //.RegisterHandler<IButton, CustomPinkTextButtonHandler>()
 						  .Init<MyApp>();
 
 			IView content = app.CreateView();
