@@ -6,6 +6,9 @@ using Xamarin.Forms.Platform.iOS;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Platform.Core;
+using Xamarin.Platform.Hosting;
+using Sample.Services;
+using Sample.iOS.CustomHandlers;
 
 namespace Sample.iOS
 {
@@ -26,13 +29,11 @@ namespace Sample.iOS
 		{
 			_window = new UIWindow();
 
-			var host = App.CreateDefaultBuilder<MyApp>()
+			var app = App.CreateDefaultBuilder()
 						  .Init()
-						  // .RegisterHandler<Button, CustomPinkTextButtonHandler>()
 						  .ConfigureServices(ConfigureExtraServices)
-						  .Build();
-
-			var app = host.Services.GetRequiredService<MyApp>();
+						  .RegisterHandler<IButton, CustomPinkTextButtonHandler>()
+						  .Init<MyApp>();
 
 			IView content = app.CreateView();
 
@@ -58,9 +59,7 @@ namespace Sample.iOS
 				};
 			}
 
-			//FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
-		
-			//services.AddSingleton<ICacheService, CacheService>();
+			services.AddSingleton<ITextService, Sample.iOS.Services.TextService>();
 		}
 
 		public override void OnResignActivation(UIApplication application)

@@ -16,5 +16,4 @@ namespace Sample.Droid.CustomHandlers
 			(handler.NativeView as AndroidX.AppCompat.Widget.AppCompatButton).SetTextColor(Android.Graphics.Color.Pink);
 		}
 	}
-
 }
