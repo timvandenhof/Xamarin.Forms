@@ -49,9 +49,14 @@ namespace Xamarin.Platform.Hosting
 		public static TApplication Init<TApplication>(this IHostBuilder hostBuilder) where TApplication : class, IApp
 		{
 			BuildAndRegisterHandlersProvider(hostBuilder);
-			hostBuilder.ConfigureServices((context, collection) => collection.AddSingleton<TApplication>());
+			hostBuilder.ConfigureServices((context, collection) =>
+			{
+				collection.AddSingleton<IHostLifetime, MobileAppLifetime>();
+				collection.AddSingleton<TApplication>();
+			});
 			var host = hostBuilder.Build();
 			var app = host.Services.GetRequiredService<TApplication>();
+			host.Start();
 			return app;
 		}
 
