@@ -17,6 +17,9 @@ namespace Sample.Droid
 	{
 		ViewGroup _page;
 
+		AppBuilder _appBuilder;
+		public AppBuilder CreateAppBuilder() => _appBuilder ??= App.CreateDefaultBuilder();
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -30,12 +33,13 @@ namespace Sample.Droid
 
 			_page = FindViewById<ViewGroup>(Resource.Id.pageLayout);
 
-			var app = App.CreateDefaultBuilder()
-							  .UserInit()
-							  //.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
-							  .ConfigureServices(ConfigureExtraServices)
-							  .Init<MyApp>();
-
+			
+			var app = CreateAppBuilder()
+						.UserInit()
+						.ConfigureServices(ConfigureExtraServices)
+						//.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
+						.Init<MyApp>();
+			_appBuilder.Start();
 			Add(app.CreateView());
 		}
 

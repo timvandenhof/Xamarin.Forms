@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Xamarin.Platform.Hosting
 {
-	class MobileAppLifetimeOptions
+	class AppLifetimeOptions
 	{
 		public bool SuppressStatusMessages { get; set; }
 	}

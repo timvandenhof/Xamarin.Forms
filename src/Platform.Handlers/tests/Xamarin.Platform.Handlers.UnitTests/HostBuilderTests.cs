@@ -139,8 +139,7 @@ namespace Xamarin.Platform.Handlers.Tests
 		[Test]
 		public void CanBuildAHost()
 		{
-			var host = App.CreateDefaultBuilder()
-							  .Build();
+			var host = App.CreateDefaultBuilder().HostBuilder.Build();
 			Assert.IsNotNull(host);
 		}
 
@@ -245,16 +244,17 @@ namespace Xamarin.Platform.Handlers.Tests
 		}
 
 		[Test]
-		public void Get100Handlers()
+		public void Get10000Handlers()
 		{
 			int iterations = 10000;
 			var app = App.CreateDefaultBuilder()
 						 .Init<MockApp>();
 
+			var handlerWarmup = app.Handlers.GetHandler<Button>(); ;
 			Stopwatch watch = Stopwatch.StartNew();
 			for (int i = 0; i < iterations; i++)
 			{
-				var defaultHandler = App.Current.Handlers.GetHandler(typeof(Button));
+				var defaultHandler = app.Handlers.GetHandler<Button>();
 				Assert.NotNull(defaultHandler);
 			}
 			watch.Stop();
@@ -269,24 +269,34 @@ namespace Xamarin.Platform.Handlers.Tests
 			}
 			watch.Stop();
 			var totalRegistrar = watch.ElapsedMilliseconds;
-
-			Assert.LessOrEqual(total, totalRegistrar);
 			Console.WriteLine($"Elapsed time DI: {total} and Registrar: {totalRegistrar}");
 		}
 
-		IHostBuilder _builder;
+		AppBuilder _builder;
 
 		[Test]
 		public void Register100Handlers()
 		{
 			int iterations = 10000;
-			_builder = new HostBuilder()
-				.UseContentRoot(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+			_builder = new AppBuilder();
 			for (int i = 0; i < iterations; i++)
 			{
 				_builder.RegisterHandler<IButton, ButtonHandler>();
 			}
-			var host = _builder.Build();
+			var host = _builder.HostBuilder.Build();
+
+		}
+
+		[Test]
+		public void StartSTopHost()
+		{
+			_builder = App.CreateDefaultBuilder();
+
+			_builder.Init<MockApp>();
+
+			_builder.Start();
+
+			_builder.Stop();
 		}
 	}
 }

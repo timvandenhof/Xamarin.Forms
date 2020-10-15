@@ -7,9 +7,9 @@ using RegistrarHandlers = Xamarin.Platform.Registrar;
 
 namespace Sample
 {
-	public static class Platform
+	public static class Startup
 	{
-		public static IHostBuilder UserInit(this IHostBuilder builder)
+		public static AppBuilder UserInit(this AppBuilder builder)
 		{
 			if (HasInit)
 				return;

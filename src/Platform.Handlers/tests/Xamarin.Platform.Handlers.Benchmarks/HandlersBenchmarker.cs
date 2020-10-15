@@ -12,13 +12,13 @@ namespace Xamarin.Platform.Handlers.Benchmarks
 	{
 		int _numberOfItems = 100000;
 		MockApp _app;
-		IHostBuilder _builder;
+		AppBuilder _builder;
 
 		[GlobalSetup(Target = nameof(GetHandlerUsingDI))]
 		public void GlobalSetupForDI()
 		{
-			var builder = App.CreateDefaultBuilder();
-			_app = builder.Init<MockApp>();
+			_builder = App.CreateDefaultBuilder();
+			_app = _builder.Init<MockApp>();
 		}
 
 		[GlobalSetup(Target = nameof(GetHandlerUsingRegistrar))]
@@ -27,11 +27,17 @@ namespace Xamarin.Platform.Handlers.Benchmarks
 			Registrar.Handlers.Register<IButton, ButtonHandler>();
 		}
 
-
 		[IterationSetup(Target = nameof(RegisterHandlerUsingDI))]
 		public void GlobalSetupForDiWithHandlersRegistration()
 		{
-			_builder = new HostBuilder();
+			_builder = new AppBuilder();
+		}
+
+		[GlobalCleanup(Target = nameof(GetHandlerUsingDI))]
+		public void GlobalCleanupForDI()
+		{
+			_builder.Stop();
+		//	_builder.Dispose();
 		}
 
 		[Benchmark]
@@ -57,7 +63,7 @@ namespace Xamarin.Platform.Handlers.Benchmarks
 		{
 			for (int i = 0; i < _numberOfItems; i++)
 			{
-				var defaultHandler = _app.Handlers.GetHandler(typeof(IButton));
+				var defaultHandler = _app.Handlers.GetHandler<IButton>();
 			}
 		}
 

@@ -23,16 +23,21 @@ namespace Sample.iOS
 			set;
 		}
 
+		AppBuilder _appBuilder;
+		public AppBuilder CreateAppBuilder() => _appBuilder ??= App.CreateDefaultBuilder();
+
 		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
 		{
 			_window = new UIWindow();
 
-			var app = App.CreateDefaultBuilder()
-						  .UserInit()
-						  .ConfigureServices(ConfigureExtraServices)
-						  //.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
-						  .Init<MyApp>();
+			var app = CreateAppBuilder()
+							.UserInit()
+							.ConfigureServices(ConfigureExtraServices)
+							//.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
+							.Init<MyApp>();
 
+			_appBuilder.Start();
+			
 			IView content = app.CreateView();
 
 			_window.RootViewController = new UIViewController

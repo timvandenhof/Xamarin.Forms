@@ -10,16 +10,17 @@ using Microsoft.Extensions.Options;
 
 namespace Xamarin.Platform.Hosting
 {
-	class MobileAppLifetime : IHostLifetime, IDisposable
+	class AppLifetime
+		: IHostLifetime, IDisposable
 	{
 		readonly ManualResetEvent _shutdownBlock = new ManualResetEvent(false);
 		CancellationTokenRegistration _applicationStartedRegistration;
 		CancellationTokenRegistration _applicationStoppingRegistration;
 
-		public MobileAppLifetime(IOptions<MobileAppLifetimeOptions> options, IHostEnvironment environment, IHostApplicationLifetime applicationLifetime, IOptions<HostOptions> hostOptions)
+		public AppLifetime(IOptions<AppLifetimeOptions> options, IHostEnvironment environment, IHostApplicationLifetime applicationLifetime, IOptions<HostOptions> hostOptions)
 			: this(options, environment, applicationLifetime, hostOptions, NullLoggerFactory.Instance) { }
 
-		public MobileAppLifetime(IOptions<MobileAppLifetimeOptions> options, IHostEnvironment environment, IHostApplicationLifetime applicationLifetime, IOptions<HostOptions> hostOptions, ILoggerFactory loggerFactory)
+		public AppLifetime(IOptions<AppLifetimeOptions> options, IHostEnvironment environment, IHostApplicationLifetime applicationLifetime, IOptions<HostOptions> hostOptions, ILoggerFactory loggerFactory)
 		{
 			Options = options?.Value ?? throw new ArgumentNullException(nameof(options));
 			Environment = environment ?? throw new ArgumentNullException(nameof(environment));
@@ -28,7 +29,7 @@ namespace Xamarin.Platform.Hosting
 			Logger = loggerFactory.CreateLogger("Microsoft.Hosting.Lifetime");
 		}
 
-		MobileAppLifetimeOptions Options { get; }
+		AppLifetimeOptions Options { get; }
 
 		IHostEnvironment Environment { get; }
 
@@ -44,12 +45,12 @@ namespace Xamarin.Platform.Hosting
 			{
 				_applicationStartedRegistration = ApplicationLifetime.ApplicationStarted.Register(state =>
 				{
-					((MobileAppLifetime)state).OnApplicationStarted();
+					((AppLifetime)state).OnApplicationStarted();
 				},
 				this);
 				_applicationStoppingRegistration = ApplicationLifetime.ApplicationStopping.Register(state =>
 				{
-					((MobileAppLifetime)state).OnApplicationStopping();
+					((AppLifetime)state).OnApplicationStopping();
 				},
 				this);
 			}

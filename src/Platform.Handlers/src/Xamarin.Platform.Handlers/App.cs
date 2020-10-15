@@ -24,12 +24,9 @@ namespace Xamarin.Platform.Core
 
 		public abstract IView CreateView();
 
-		public static IHostBuilder CreateDefaultBuilder()
+		public static AppBuilder CreateDefaultBuilder()
 		{
-			var builder = new HostBuilder()
-			.UseContentRoot(Environment.GetFolderPath(Environment.SpecialFolder.Personal))
-			.UseXamarinHandlers();
-
+			var builder = new AppBuilder().CreateAppDefaults();
 			return builder;
 		}
 	}
