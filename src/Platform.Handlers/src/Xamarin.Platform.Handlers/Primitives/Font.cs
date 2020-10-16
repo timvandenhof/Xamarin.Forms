@@ -25,7 +25,7 @@ namespace Xamarin.Forms
 
 		public static Font Default
 		{
-			get { return default(Font); }
+			get { return default; }
 		}
 
 		public Font WithSize(double size)

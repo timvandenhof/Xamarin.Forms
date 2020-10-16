@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Platform;
 
 namespace Sample
 {
-	public class Button : View, IButton
+	public class Button : FontElement, IButton
 	{
 		public const int DefaultCornerRadius = -1;
+		public const int DefaultBorderWidth = -1;
 
 		public string Text { get; set; }
 
@@ -16,15 +18,7 @@ namespace Sample
 
 		public Color BorderColor { get; set; }
 
-		public double BorderWidth { get; set; }
-
-		public Font Font { get; set; }
-
-		public string FontFamily { get; set; }
-
-		public double FontSize { get; set; }
-
-		public FontAttributes FontAttributes { get; set; }
+		public double BorderWidth { get; set; } = DefaultBorderWidth;
 
 		public TextTransform TextTransform { get; set; }
 
@@ -34,12 +28,30 @@ namespace Sample
 
 		public double CharacterSpacing { get; set; }
 
+		public LineBreakMode LineBreakMode { get; set; }
+
+		public ButtonContentLayout ContentLayout { get; set; }
+
+		public Thickness Padding { get; set; }
+
+		public ICommand Command { get; set; }
+
+		public object CommandParameter { get; set; }
+
+		string IText.UpdateTransformedText(string source, TextTransform textTransform)
+			=> TextTransformUtilites.GetTransformedText(source, textTransform);
+
 		public Action Pressed { get; set; }
 		public Action Released { get; set; }
 		public Action Clicked { get; set; }
 
 		void IButton.Pressed() => Pressed?.Invoke();
 		void IButton.Released() => Released?.Invoke();
-		void IButton.Clicked() => Clicked?.Invoke();
+
+		void IButton.Clicked()
+		{
+			Command?.Execute(CommandParameter);
+			Clicked?.Invoke();
+		}
 	}
 }

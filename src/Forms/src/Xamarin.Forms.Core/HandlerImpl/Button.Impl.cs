@@ -11,7 +11,12 @@ namespace Xamarin.Forms
 
 		Color IText.Color
 		{
-			get => this.TextColor;
+			get => TextColor;
+		}
+
+		public string UpdateTransformedText(string source, TextTransform textTransform)
+		{
+			throw new NotImplementedException();
 		}
 
 		void IButton.Clicked()

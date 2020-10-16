@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Foundation;
+﻿using Foundation;
 using UIKit;
 using Xamarin.Forms;
 
@@ -27,7 +24,41 @@ namespace Xamarin.Platform
 		public static void UpdateColor(this UIButton nativeButton, IButton button) =>
 			nativeButton.UpdateColor(button.Color, nativeButton.TitleColor(UIControlState.Normal).ToColor());
 
-		static Color Cleanse(this Color color, Color defaultColor) => color.IsDefault ? defaultColor : color;
+		public static void UpdateFont(this UIButton nativeButton, IButton button)
+		{
+			nativeButton.TitleLabel.Font = button.ToUIFont();
+		}
 
+		public static void UpdateCharacterSpacing(this UIButton nativeButton, IButton button)
+		{
+
+		}
+
+		public static void UpdateCornerRadius(this UIButton nativeButton, IButton button)
+		{
+
+		}
+
+		public static void UpdateBorderColor(this UIButton nativeButton, IButton button)
+		{
+
+		}
+
+		public static void UpdateBorderWidth(this UIButton nativeButton, IButton button)
+		{
+
+		}
+
+		public static void UpdateContentLayout(this UIButton nativeButton, IButton button)
+		{
+
+		}
+
+		public static void UpdatePadding(this UIButton nativeButton, IButton button)
+		{
+
+		}
+
+		static Color Cleanse(this Color color, Color defaultColor) => color.IsDefault ? defaultColor : color;
 	}
 }

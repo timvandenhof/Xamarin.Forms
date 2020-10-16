@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Android.Text;
 using Android.Widget;
 using Xamarin.Forms.Internals;
+using Xamarin.Platform;
 
 namespace Xamarin.Forms.Platform.Android
 {
@@ -31,7 +32,7 @@ namespace Xamarin.Forms.Platform.Android
 		public static void SetLineBreakMode(this TextView textView, Button button) =>
 			SetLineBreak(textView, button.LineBreakMode);
 
-
+		[PortHandler]
 		public static int SetLineBreak(TextView textView, LineBreakMode lineBreakMode)
 		{
 			int maxLines = Int32.MaxValue;

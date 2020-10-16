@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Xamarin.Platform;
 using AColor = Android.Graphics.Color;
 
 namespace Xamarin.Forms.Platform.Android

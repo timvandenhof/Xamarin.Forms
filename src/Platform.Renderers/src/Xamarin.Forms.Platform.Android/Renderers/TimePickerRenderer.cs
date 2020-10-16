@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Text.Format;
 using Android.Util;
 using Android.Widget;
+using Xamarin.Platform;
 using AColor = Android.Graphics.Color;
 using ATimePicker = Android.Widget.TimePicker;
 

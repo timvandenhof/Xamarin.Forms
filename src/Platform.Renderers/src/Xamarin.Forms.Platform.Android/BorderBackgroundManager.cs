@@ -2,12 +2,14 @@ using System;
 using System.ComponentModel;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Xamarin.Platform;
 using AColor = Android.Graphics.Color;
 using AView = Android.Views.View;
 using Specifics = Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace Xamarin.Forms.Platform.Android
 {
+	[PortHandler]
 	internal class BorderBackgroundManager : IDisposable
 	{
 		Drawable _defaultDrawable;

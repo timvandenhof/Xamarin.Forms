@@ -1,8 +1,10 @@
 ﻿using Android.Views;
+using Xamarin.Platform;
 using AView = Android.Views.View;
 
 namespace Xamarin.Forms.Platform.Android
 {
+	[PortHandler]
 	public static class ButtonElementManager
 	{
 		public static bool OnTouch(VisualElement element, IButtonController buttonController, AView v, MotionEvent e)
