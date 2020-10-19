@@ -33,14 +33,14 @@ namespace Sample.Droid
 
 			_page = FindViewById<ViewGroup>(Resource.Id.pageLayout);
 
-			
 			var app = CreateAppBuilder()
-						.UserInit()
 						.ConfigureServices(ConfigureExtraServices)
 						//.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
 						.Init<MyApp>();
 			_appBuilder.Start();
-			Add(app.CreateView());
+
+			var page = app.Services.GetRequiredService<IStartup>() as Xamarin.Forms.ContentPage;
+			Add(page.Content as IView);
 		}
 
 		void ConfigureExtraServices(HostBuilderContext ctx, IServiceCollection services)

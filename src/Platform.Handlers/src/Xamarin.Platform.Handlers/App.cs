@@ -7,27 +7,29 @@ namespace Xamarin.Platform.Core
 {
 	public abstract class App : IApp
 	{
-		protected App(IHost host)
+		IServiceProvider? _serviceProvider;
+		IHandlerServiceProvider? _handlerServiceProvider;
+		protected App()
 		{
-			Host = host;
-			Handlers = Services.GetRequiredService<IHandlerServiceProvider>();
 			Current = this;
 		}
 
 		public static App? Current { get; private set; }
 
-		public IHost Host { get; private set; }
+		public IServiceProvider? Services => _serviceProvider;
 
-		public IServiceProvider Services => Host.Services;
-
-		public IHandlerServiceProvider Handlers { get; private set; }
-
-		public abstract IView CreateView();
+		public IHandlerServiceProvider? Handlers => _handlerServiceProvider;
 
 		public static AppBuilder CreateDefaultBuilder()
 		{
 			var builder = new AppBuilder().CreateAppDefaults();
 			return builder;
+		}
+
+		public void SetServiceProvider(IServiceProvider provider)
+		{
+			_serviceProvider = provider;
+			_handlerServiceProvider = provider.GetRequiredService<IHandlerServiceProvider>();
 		}
 	}
 }

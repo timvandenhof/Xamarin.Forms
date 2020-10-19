@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sample.Pages;
-using Xamarin.Platform;
+using Sample.Services;
+using Sample.ViewModel;
 using Xamarin.Platform.Core;
+using Xamarin.Platform.Hosting;
 
 namespace Sample
 {
 	public class MyApp : App
 	{
-		public MyApp(IHost host) : base(host)
-		{
-		}
 
-		public override IView CreateView()
+		public void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
 		{
 			var verticalStack = new Xamarin.Platform.VerticalStackLayout() { Spacing = 5, BackgroundColor = Color.AntiqueWhite };
 			var horizontalStack = new Xamarin.Platform.HorizontalStackLayout() { Spacing = 2 };

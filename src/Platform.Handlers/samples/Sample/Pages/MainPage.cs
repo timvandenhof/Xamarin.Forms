@@ -4,10 +4,11 @@ using System.Text;
 using Sample.Services;
 using Sample.ViewModel;
 using Xamarin.Forms;
+using Xamarin.Platform.Hosting;
 
 namespace Sample.Pages
 {
-	public class MainPage : ContentPage
+	public class MainPage : ContentPage, IStartup
 	{
 		public MainPage(MainPageViewModel viewModel)
 		{

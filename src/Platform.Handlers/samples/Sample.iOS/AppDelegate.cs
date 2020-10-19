@@ -31,18 +31,17 @@ namespace Sample.iOS
 			_window = new UIWindow();
 
 			var app = CreateAppBuilder()
-							.UserInit()
 							.ConfigureServices(ConfigureExtraServices)
-							//.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
+							.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
 							.Init<MyApp>();
 
 			_appBuilder.Start();
-			
-			IView content = app.CreateView();
+
+			var page = app.Services.GetRequiredService<IStartup>() as Xamarin.Forms.ContentPage;
 
 			_window.RootViewController = new UIViewController
 			{
-				View = content.ToNative()
+				View = page.Content.ToNative()
 			};
 
 			_window.MakeKeyAndVisible();

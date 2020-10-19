@@ -6,12 +6,8 @@ namespace Xamarin.Platform.Core
 {
 	public interface IApp
 	{
-		IHost Host { get; }
+		IServiceProvider? Services { get; }
 
-		IServiceProvider Services { get; }
-
-		IHandlerServiceProvider Handlers { get; }
-
-		IView CreateView();
+		IHandlerServiceProvider? Handlers { get; }
 	}
 }

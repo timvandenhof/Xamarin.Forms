@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xamarin.Platform.Core;
@@ -10,9 +9,8 @@ using Xamarin.Platform.Handlers;
 
 namespace Xamarin.Platform.Hosting
 {
-	public class AppBuilder : IDisposable
+	public class AppBuilder : HostBuilder, IDisposable
 	{
-
 		readonly HandlerServiceCollection _handlersCollection = new HandlerServiceCollection();
 		readonly List<Action<HostBuilderContext, IServiceCollection>> _configureServicesActions = new List<Action<HostBuilderContext, IServiceCollection>>();
 		IHost? _host;
@@ -23,24 +21,20 @@ namespace Xamarin.Platform.Hosting
 
 		public AppBuilder()
 		{
-			HostBuilder = new HostBuilder();
 			_cts = new CancellationTokenSource();
 		}
-
-		//We expose the Builder so we allow the user to do HostConnfiguration like Logging
-		public IHostBuilder HostBuilder { get; }
 
 		//CreateAppDefaults will set the common things like:
 		// - Set the ContentRoot
 		// - Register the basic handlers
 		public AppBuilder CreateAppDefaults()
 		{
-			HostBuilder.UseContentRoot(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+		 	this.UseContentRoot(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
 			UseXamarinHandlers();
 			return this;
 		}
 
-		public AppBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate)
+		public new AppBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate)
 		{
 			_configureServicesActions.Add(configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate)));
 			return this;
@@ -48,26 +42,31 @@ namespace Xamarin.Platform.Hosting
 
 		public TApplication Init<TApplication>() where TApplication : class, IApp
 		{
-			BuildAndRegisterHandlersProvider(HostBuilder);
-			
-			HostBuilder.ConfigureServices((context, collection) =>
+			BuildAndRegisterHandlersProvider();
+
+			var app = Activator.CreateInstance(typeof(TApplication));
+			base.ConfigureServices((context, services) =>
 			{
 				foreach (Action<HostBuilderContext, IServiceCollection> configureServicesAction in _configureServicesActions)
 				{
-					configureServicesAction(context, collection);
+					configureServicesAction(context, services);
 				}
 
-				collection.AddSingleton<IHostLifetime, AppLifetime>();
-				collection.AddSingleton<IApp, TApplication>();
+				services.AddSingleton<IHostLifetime, AppLifetime>();
+
+				AppLoader.ConfigureAppServices<TApplication>(context, services, app);
 			});
 
 			RegisterAssemblies<TApplication>();
-			
-			_host = HostBuilder.Build();
-			
+
+			_host = Build();
+
+			(app as App)?.SetServiceProvider(_host.Services);
+
 			return (TApplication)_host.Services.GetRequiredService<IApp>();
 		}
 
+	
 		public async void Start()
 		{
 			if (_host != null)
@@ -108,13 +107,13 @@ namespace Xamarin.Platform.Hosting
 			});
 			return this;
 		}
-
-		IHostBuilder BuildAndRegisterHandlersProvider(IHostBuilder hostBuilder)
+	
+		IHostBuilder BuildAndRegisterHandlersProvider()
 		{
 			var handlersProvider = _handlersCollection.BuildHandlerServiceProvider();
-			hostBuilder.ConfigureServices((context, collection) => collection.AddSingleton(handlersProvider));
+			ConfigureServices((context, collection) => collection.AddSingleton<IHandlerServiceProvider>(handlersProvider));
 
-			return hostBuilder;
+			return this;
 		}
 
 		void RegisterAssemblies<TApplication>() where TApplication : class, IApp
