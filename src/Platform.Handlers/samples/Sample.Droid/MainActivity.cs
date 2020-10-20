@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Services;
 using Xamarin.Platform.Hosting;
+using Xamarin.Platform.Handlers;
+using System;
+using System.Collections.Generic;
 
 namespace Sample.Droid
 {
@@ -35,14 +38,21 @@ namespace Sample.Droid
 
 			var app = CreateAppBuilder()
 						.ConfigureServices(ConfigureExtraServices)
-						//.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
+						//.RegisterHandlers(new Dictionary<Type, Type> 
+						//{
+						//	{ typeof(Xamarin.Platform.VerticalStackLayout),typeof(LayoutHandler) },
+						//	{ typeof(Xamarin.Platform.HorizontalStackLayout),typeof(LayoutHandler) },
+						//	{ typeof(Xamarin.Forms.FlexLayout),typeof(LayoutHandler) },
+						//	{ typeof(Xamarin.Forms.StackLayout),typeof(LayoutHandler) },
+						//})
 						.Init<MyApp>();
+			
 			_appBuilder.Start();
 
-			var page = app.Services.GetRequiredService<IStartup>() as Xamarin.Forms.ContentPage;
-			Add(page.Content as IView);
+			var page = app.Services.GetRequiredService<IStartup>() as Pages.MainPage;
+			Add(page.GetContentView());
 		}
-
+		
 		void ConfigureExtraServices(HostBuilderContext ctx, IServiceCollection services)
 		{
 			services.AddSingleton<ITextService, Services.DroidTextService>();

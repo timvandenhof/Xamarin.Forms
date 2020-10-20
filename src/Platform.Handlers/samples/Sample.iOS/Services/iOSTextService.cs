@@ -4,6 +4,6 @@ namespace Sample.iOS.Services
 {
 	class iOSTextService : ITextService
 	{
-		public string GetText() => "Hello From Android";
+		public string GetText() => "Hello From iOS";
 	}
 }

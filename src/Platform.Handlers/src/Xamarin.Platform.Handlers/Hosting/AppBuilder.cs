@@ -103,8 +103,12 @@ namespace Xamarin.Platform.Hosting
 		{
 			RegisterHandlers(new Dictionary<Type, Type>
 			{
-				{  typeof(IButton), typeof(ButtonHandler) }
+				{  typeof(IButton), typeof(ButtonHandler) },
+				{  typeof(ILayout), typeof(LayoutHandler) },
+				{  typeof(ILabel), typeof(LabelHandler) },
+				{  typeof(ISlider), typeof(SliderHandler) }
 			});
+
 			return this;
 		}
 	

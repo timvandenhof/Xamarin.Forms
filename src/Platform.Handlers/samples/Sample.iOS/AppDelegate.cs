@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Platform.Core;
 using Xamarin.Platform.Hosting;
 using Sample.Services;
+using System.Collections.Generic;
+using System;
+using Xamarin.Platform.Handlers;
 
 namespace Sample.iOS
 {
@@ -32,16 +35,23 @@ namespace Sample.iOS
 
 			var app = CreateAppBuilder()
 							.ConfigureServices(ConfigureExtraServices)
-							.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
+							//.RegisterHandler<IButton, CustomHandlers.CustomPinkTextButtonHandler>()
+							//.RegisterHandlers(new Dictionary<Type, Type>
+							//{
+							//	{ typeof(Xamarin.Platform.VerticalStackLayout),typeof(LayoutHandler) },
+							//	{ typeof(Xamarin.Platform.HorizontalStackLayout),typeof(LayoutHandler) },
+							//	{ typeof(Xamarin.Forms.FlexLayout),typeof(LayoutHandler) },
+							//	{ typeof(Xamarin.Forms.StackLayout),typeof(LayoutHandler) },
+							//})
 							.Init<MyApp>();
 
 			_appBuilder.Start();
 
-			var page = app.Services.GetRequiredService<IStartup>() as Xamarin.Forms.ContentPage;
-
+			var page = app.Services.GetRequiredService<IStartup>() as Pages.MainPage;
+			
 			_window.RootViewController = new UIViewController
 			{
-				View = page.Content.ToNative()
+				View = page.GetContentView().ToNative()
 			};
 
 			_window.MakeKeyAndVisible();
