@@ -302,9 +302,25 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 
 			if (renderer == null)
 			{
-				var handler = Xamarin.Platform.Registrar.Handlers.GetHandler(element.GetType());
+				Xamarin.Platform.IViewHandler handler = null;
 
-				if (handler is RendererToHandlerShim shim)
+				try
+				{
+					handler = Xamarin.Platform.Registrar.Handlers.GetHandler(element.GetType());
+				}
+				catch 
+				{
+					// TODO define better catch response or define if this is needed?
+				}
+				
+				if(handler == null)
+				{
+					renderer = Registrar.Registered.GetHandlerForObject<IVisualElementRenderer>(element, context)
+										?? new DefaultRenderer(context);
+
+					//handler = new RendererToHandlerShim(renderer);
+				}
+				else if (handler is RendererToHandlerShim shim)
 				{
 					renderer = shim.VisualElementRenderer;
 
