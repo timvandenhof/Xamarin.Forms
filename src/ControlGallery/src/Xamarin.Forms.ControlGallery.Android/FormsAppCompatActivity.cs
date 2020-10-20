@@ -11,6 +11,7 @@ using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms.Platform.Android.AppLinks;
 using System.Linq;
 using Xamarin.Forms.Internals;
+using RegistrarHandlers = Xamarin.Platform.Registrar;
 
 namespace Xamarin.Forms.ControlGallery.Android
 {
@@ -52,6 +53,9 @@ namespace Xamarin.Forms.ControlGallery.Android
 			FormsMaps.Init(this, bundle);
 
 			Xamarin.Platform.Registrar.Handlers.Register(typeof(Button), typeof(Xamarin.Platform.Handlers.ButtonHandler));
+
+			RegistrarHandlers.Handlers.Register<Xamarin.Forms.StackLayout, Xamarin.Platform.Handlers.LayoutHandler>();
+
 			//FormsMaterial.Init(this, bundle);
 			AndroidAppLinks.Init(this);
 			Forms.ViewInitialized += (sender, e) => {

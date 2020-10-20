@@ -36,7 +36,13 @@ namespace Xamarin.Forms.Controls
 
 			SetMainPage(new ContentPage()
 			{
-				Content = new Button()
+				Content = new StackLayout()
+				{
+					Children = {
+						new Button(),
+						//new Slider()
+					}
+				}
 			});
 
 			//TestMainPageSwitches();
