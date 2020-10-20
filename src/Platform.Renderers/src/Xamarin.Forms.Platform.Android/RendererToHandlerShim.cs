@@ -50,7 +50,7 @@ namespace Xamarin.Forms
 				Element.PropertyChanged += OnElementPropertyChanged;
 
 			Element = element;
-			ViewHandler.SetVirtualView(element);
+			ViewHandler.SetVirtualView((IView)element);
 			if (Tracker == null)
 			{
 				Tracker = new VisualElementTracker(this);

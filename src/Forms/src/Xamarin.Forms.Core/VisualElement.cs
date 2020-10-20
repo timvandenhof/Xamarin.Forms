@@ -7,7 +7,7 @@ using Xamarin.Forms.Shapes;
 
 namespace Xamarin.Forms
 {
-	public partial class VisualElement : NavigableElement, IAnimatable, IVisualElementController, IResourcesProvider, IStyleElement, IFlowDirectionController, IPropertyPropagationController, IVisualController, ITabStopElement, Xamarin.Platform.IView
+	public partial class VisualElement : NavigableElement, IAnimatable, IVisualElementController, IResourcesProvider, IStyleElement, IFlowDirectionController, IPropertyPropagationController, IVisualController, ITabStopElement
 	{
 		public new static readonly BindableProperty NavigationProperty = NavigableElement.NavigationProperty;
 
@@ -408,7 +408,6 @@ namespace Xamarin.Forms
 				Y = value.Y;
 				SetSize(value.Width, value.Height);
 				BatchCommit();
-				OnPropertyChanged("Frame");
 			}
 		}
 
@@ -855,6 +854,7 @@ namespace Xamarin.Forms
 
 		protected virtual void OnSizeAllocated(double width, double height)
 		{
+			Handler?.SetFrame(Bounds);
 		}
 
 		[Obsolete("OnSizeRequest is obsolete as of version 2.2.0. Please use OnMeasure instead.")]
