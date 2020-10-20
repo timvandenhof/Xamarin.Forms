@@ -22,12 +22,15 @@ namespace Sample
 
 			RegistrarHandlers.Handlers.Register<Button, ButtonHandler>();
 			RegistrarHandlers.Handlers.Register<Slider, SliderHandler>();
+			RegistrarHandlers.Handlers.Register<Xamarin.Forms.Button, ButtonHandler>();
+			RegistrarHandlers.Handlers.Register<Xamarin.Forms.Slider, SliderHandler>();
 			RegistrarHandlers.Handlers.Register<Xamarin.Platform.VerticalStackLayout, LayoutHandler>();
 			RegistrarHandlers.Handlers.Register<Xamarin.Platform.HorizontalStackLayout, LayoutHandler>();
 			RegistrarHandlers.Handlers.Register<Xamarin.Forms.FlexLayout, LayoutHandler>();
 			RegistrarHandlers.Handlers.Register<Xamarin.Forms.StackLayout, LayoutHandler>();
 			//RegistrarHandlers.Handlers.Register<Entry, EntryHandler>();
 			RegistrarHandlers.Handlers.Register<Label, LabelHandler>();
+			RegistrarHandlers.Handlers.Register<Xamarin.Forms.Label, LabelHandler>();
 		}
 	}
 }
