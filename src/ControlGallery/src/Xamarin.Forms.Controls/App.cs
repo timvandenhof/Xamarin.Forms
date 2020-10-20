@@ -34,20 +34,19 @@ namespace Xamarin.Forms.Controls
 		{
 			_testCloudService = DependencyService.Get<ITestCloudService>();
 
-			SetMainPage(new ContentPage()
-			{
-				Content = new StackLayout()
-				{
-					Children = {
-						new Button(),
-						//new Slider()
-					}
-				}
-			});
+			//SetMainPage(new ContentPage()
+			//{
+			//	Content = new StackLayout()
+			//	{
+			//		Children = {
+			//			new Button()
+			//		}
+			//	}
+			//});
 
 			//TestMainPageSwitches();
 
-			//SetMainPage(new ImageSourcesGallery());
+			SetMainPage(CreateDefaultMainPage());
 		}
 
 		protected override void OnStart()
