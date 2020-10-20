@@ -1,15 +1,16 @@
 ﻿using System;
-using Xamarin.Forms.Internals;
-using Xamarin.Forms.Platform.Android;
+using Android.Views;
+using IVisualElementRenderer = Xamarin.Forms.Platform.Android.IVisualElementRenderer;
+using VisualElementChangedEventArgs = Xamarin.Forms.Platform.Android.VisualElementChangedEventArgs;
 using Xamarin.Platform;
+using IView = Xamarin.Platform.IView;
+using AbstractViewHandler = Xamarin.Platform.Handlers.AbstractViewHandler<Xamarin.Platform.IView, Android.Views.View>;
 
 namespace Xamarin.Forms
 {
 
-	public class RendererToHandlerShim : Xamarin.Platform.IViewHandler, IAndroidViewHandler
+	public class RendererToHandlerShim : AbstractViewHandler//Xamarin.Platform.IViewHandler, IAndroidViewHandler
 	{
-		private global::Android.Content.Context _context;
-
 		internal IVisualElementRenderer VisualElementRenderer { get; private set; }
 
 		public static IViewHandler CreateShim(object renderer)
@@ -20,10 +21,14 @@ namespace Xamarin.Forms
 			if (renderer is IVisualElementRenderer ivr)
 				return new RendererToHandlerShim(ivr);
 
-			return new RendererToHandlerShim(null);
+			return new RendererToHandlerShim();
 		}
 
-		public RendererToHandlerShim(IVisualElementRenderer visualElementRenderer)
+		public RendererToHandlerShim() : base(Xamarin.Platform.Handlers.ViewHandler.ViewMapper)
+		{
+		}
+
+		public RendererToHandlerShim(IVisualElementRenderer visualElementRenderer) : this()
 		{
 			if(visualElementRenderer != null)
 				SetupRenderer(visualElementRenderer);
@@ -37,7 +42,7 @@ namespace Xamarin.Forms
 			if (VisualElementRenderer.Element is IView view)
 			{
 				view.Handler = this;
-				this.SetVirtualView(view);
+				SetVirtualView(view);
 			}
 			else if (VisualElementRenderer.Element != null)
 				throw new Exception($"{VisualElementRenderer.Element} must implement: {nameof(Xamarin.Platform.IView)}");
@@ -55,46 +60,43 @@ namespace Xamarin.Forms
 			}
 			else if (e.NewElement != null)
 				throw new Exception($"{e.NewElement} must implement: {nameof(Xamarin.Platform.IView)}");
-
 		}
 
-		public object NativeView => VisualElementRenderer.View;
-
-		public bool HasContainer
+		protected override global::Android.Views.View CreateNativeView()
 		{
-			get;
-			set;
+			return VisualElementRenderer.View;
 		}
 
-		global::Android.Views.View IAndroidViewHandler.View => throw new NotImplementedException();
-
-		public Size GetDesiredSize(double widthConstraint, double heightConstraint)
+		protected override void ConnectHandler(global::Android.Views.View nativeView)
 		{
-			var returnValue = VisualElementRenderer.GetDesiredSize((int)widthConstraint, (int)heightConstraint);
-			return returnValue;
+			base.ConnectHandler(nativeView);
+			VirtualView.Handler = this;
 		}
 
-		public void SetFrame(Rectangle frame)
+		protected override void DisconnectHandler(global::Android.Views.View nativeView)
 		{
-			var context = VisualElementRenderer.View.Context;
-			var width = MeasureSpecFactory.MakeMeasureSpec((int)Platform.Android.ContextExtensions.ToPixels(context, frame.Width), global::Android.Views.MeasureSpecMode.Exactly);
-			var height = MeasureSpecFactory.MakeMeasureSpec((int)Platform.Android.ContextExtensions.ToPixels(context, frame.Height), global::Android.Views.MeasureSpecMode.Exactly);
-
-			VisualElementRenderer.View.Measure(width, height);
+			base.DisconnectHandler(nativeView);
+			VirtualView.Handler = null;
 		}
 
-		public void SetVirtualView(IView view)
+		public override void SetVirtualView(IView view)
 		{
-			if(VisualElementRenderer == null && _context != null)
+			if(VisualElementRenderer == null && Context != null)
 			{
-				var renderer = Internals.Registrar.Registered.GetHandlerForObject<IVisualElementRenderer>(view, _context)
-										   ?? new Platform.Android.AppCompat.Platform.DefaultRenderer(_context);
+				var renderer = Internals.Registrar.Registered.GetHandlerForObject<IVisualElementRenderer>(view, Context)
+										   ?? new Platform.Android.AppCompat.Platform.DefaultRenderer(Context);
 
 				SetupRenderer(renderer);
 			}
 
 			if (VisualElementRenderer.Element != view)
+			{
 				VisualElementRenderer.SetElement((VisualElement)view);
+			}
+			else
+			{
+				base.SetVirtualView(view);
+			}
 		}
 
 		public void DisconnectHandler()
@@ -102,17 +104,18 @@ namespace Xamarin.Forms
 			VisualElementRenderer.SetElement(null);
 		}
 
-		public void UpdateValue(string property)
+		public override void UpdateValue(string property)
 		{
+			base.UpdateValue(property);
 			if (property == "Frame")
 			{
 				SetFrame(VisualElementRenderer.Element.Bounds);
 			}
 		}
 
-		void IAndroidViewHandler.SetContext(global::Android.Content.Context context)
-		{
-			_context = context;
-		}
+		//void IAndroidViewHandler.SetContext(global::Android.Content.Context context)
+		//{
+		//	_context = context;
+		//}
 	}
 }
