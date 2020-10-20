@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Xamarin.Forms.StyleSheets;
+using Xamarin.Platform;
 
 namespace Xamarin.Forms
 {
@@ -54,6 +55,15 @@ namespace Xamarin.Forms.Internals
 				else
 					visualRenderers[supportedVisuals[i]] = (trender, priority);
 			}
+
+
+			// TODO Shane once we figure out visual we'll need to
+			// wire this up a bit differently but for now this gets us are types
+			Xamarin.Platform.Registrar.Handlers.Register(tview,
+				(viewType) =>
+				{
+					return Registrar.HandlerShim?.Invoke(null);
+				});
 		}
 
 		public void Register(Type tview, Type trender, Type[] supportedVisual) => Register(tview, trender, supportedVisual, 0);
@@ -75,17 +85,19 @@ namespace Xamarin.Forms.Internals
 
 		internal TRegistrable GetHandler(Type type, object source, IVisual visual, params object[] args)
 		{
+			TRegistrable returnValue = default(TRegistrable);
 			if (args.Length == 0)
 			{
-				return GetHandler(type, visual?.GetType() ?? _defaultVisualType);
+				returnValue = GetHandler(type, visual?.GetType() ?? _defaultVisualType);
+			}
+			else
+			{
+				Type handlerType = GetHandlerType(type, visual?.GetType() ?? _defaultVisualType);
+				if (handlerType != null)
+					returnValue = (TRegistrable)DependencyResolver.ResolveOrCreate(handlerType, source, visual?.GetType(), args);
 			}
 
-			Type handlerType = GetHandlerType(type, visual?.GetType() ?? _defaultVisualType);
-			if (handlerType == null)
-				return null;
-
-
-			return (TRegistrable)DependencyResolver.ResolveOrCreate(handlerType, source, visual?.GetType(), args);
+			return returnValue;
 		}
 
 		public TOut GetHandler<TOut>(Type type) where TOut : class, TRegistrable
@@ -274,6 +286,15 @@ namespace Xamarin.Forms.Internals
 				if (attribute.ShouldRegister())
 					Registered.Register(attribute.HandlerType, attribute.TargetType, attribute.SupportedVisuals, attribute.Priority);
 			}
+		}
+
+
+
+		static Func<object, IViewHandler> _handlerShim;
+		internal static Func<object, IViewHandler> HandlerShim => _handlerShim;
+		public static void RegisterHandlerShim(Func<object, IViewHandler> handlerShim)
+		{
+			_handlerShim = handlerShim;
 		}
 
 		public static void RegisterStylesheets(InitializationFlags flags)

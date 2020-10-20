@@ -50,6 +50,8 @@ namespace Xamarin.Forms.ControlGallery.Android
 			Forms.Init(this, bundle);
 
 			FormsMaps.Init(this, bundle);
+
+			Xamarin.Platform.Registrar.Handlers.Register(typeof(Button), typeof(Xamarin.Platform.Handlers.ButtonHandler));
 			//FormsMaterial.Init(this, bundle);
 			AndroidAppLinks.Init(this);
 			Forms.ViewInitialized += (sender, e) => {

@@ -7,7 +7,7 @@ using Xamarin.Forms.Shapes;
 
 namespace Xamarin.Forms
 {
-	public partial class VisualElement : NavigableElement, IAnimatable, IVisualElementController, IResourcesProvider, IStyleElement, IFlowDirectionController, IPropertyPropagationController, IVisualController, ITabStopElement
+	public partial class VisualElement : NavigableElement, IAnimatable, IVisualElementController, IResourcesProvider, IStyleElement, IFlowDirectionController, IPropertyPropagationController, IVisualController, ITabStopElement, Xamarin.Platform.IView
 	{
 		public new static readonly BindableProperty NavigationProperty = NavigableElement.NavigationProperty;
 
@@ -408,6 +408,7 @@ namespace Xamarin.Forms
 				Y = value.Y;
 				SetSize(value.Width, value.Height);
 				BatchCommit();
+				OnPropertyChanged("Frame");
 			}
 		}
 
